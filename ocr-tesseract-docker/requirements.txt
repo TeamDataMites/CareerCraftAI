@@ -1,0 +1,12 @@
+certifi
+Click
+Flask
+gunicorn
+itsdangerous
+Jinja2
+MarkupSafe
+numpy==1.15.4
+opencv-python
+pillow
+pytesseract
+werkzeug

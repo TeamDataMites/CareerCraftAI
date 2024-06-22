@@ -1,0 +1,10 @@
+
+*.env
+
+DOCS/
+
+llm/
+
+
+# dependencies
+**/node_modules/
