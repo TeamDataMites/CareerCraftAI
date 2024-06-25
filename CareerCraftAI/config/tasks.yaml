@@ -1,0 +1,53 @@
+research_jobs:
+  description: >
+    Analyze the job posting URL provided ({job_posting_url}) to extract key skills, experiences, and qualifications required. 
+    Analyze the company who posted the job to understand their background and what they would expect from a candidate.
+    Use the tools to gather content and identify and categorize the requirements.
+
+  expected_output: >
+    A structured list of job requirements, including necessary skills, qualifications, and experiences
+    and a summary of the company's background and expectations from a candidate.
+
+
+create_personal_profile:
+  description: >
+    Compile a detailed personal and professional profile using the GitHub ({github_url}) URLs, 
+    personal write-up ({personal_writeup}), gather profile information from user linkdin {linkdin_url} URL, and use {linkdin_id} to gather information on posts user has made on linkdin.
+    Use the provided resume {resume} to extract additional information on skills and experiences.
+    Utilize tools to extract and synthesize information from these sources.
+
+  expected_output: >
+    A comprehensive profile document that includes skills, project experiences, contributions, interests, and communication style.
+
+
+create_resume_strategy:
+  description: >
+    Using the profile and job requirements obtained from previous tasks and using the provided resume {resume}, tailor the resume to highlight the most relevant areas. 
+    Employ tools to adjust and enhance the resume content. Make sure this is the best resume even but don't make up any information. Update every section, 
+    inlcuding the initial summary, work experience, skills, projects and education. All to better reflect the candidates abilities and how it matches the job posting.
+    reflect on whether the resume is improved compared with the provided resume.
+
+  expected_output: >
+    An updated resume that is tailored to the job requirements, highlighting the most relevant skills, experiences, and qualifications.
+    A reflection on the improvements made to the resume compared to the original version.
+
+
+interview_preperation_task:
+  description: >
+    Create a set of potential interview questions and talking points based on the tailored resume and job requirements. 
+    Utilize tools to generate relevant questions and discussion points, reflect on whether the questions generated can fully asses the candidate. 
+    Make sure to use these question and talking points to help the candiadte highlight the main points of the resume and how it matches the job posting.
+
+  expected_output: >
+    A document containing key questions and talking points that the candidate should prepare for the initial interview.
+
+
+quality_control:
+  description: >
+    Review the resume provided and compare it with the job requirements and the personal profile. 
+    Provide feedback on the resume, including any areas that need improvement or adjustment.
+    If the resume meets the requirements, provide final approval.
+
+  expected_output: >
+    A detailed review of the resume, including feedback on areas that need improvement or adjustment.
+    Final approval if the resume meets the job requirements and personal profile.
