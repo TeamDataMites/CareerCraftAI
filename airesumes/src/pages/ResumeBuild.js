@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './CSS/ResumeBuild.css';
 
 const ResumeBuild = () => {
   const [cv, setCv] = useState(null);

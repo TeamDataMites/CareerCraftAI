@@ -1,0 +1,59 @@
+/* PrepareInterview.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .option {
+    cursor: pointer;
+    margin-bottom: 10px;
+    border: 1px solid #007bff;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    color: #007bff;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .option:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  form {
+    margin-top: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  input[type="file"],
+  textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  

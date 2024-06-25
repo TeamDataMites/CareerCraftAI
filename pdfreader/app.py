@@ -24,8 +24,4 @@ async def extract_text(file: UploadFile = File(...)):
     pdf_content = await file.read()
     extracted_text = extract_text_from_pdf(pdf_content)
 
-
-    # async with httpx.AsyncClient() as client:
-    #     response = await client.post("http://127.0.0.1:8000/search", json={"query": extracted_text,"top_k": 10})
-
     return {"extratedtext": extracted_text}
