@@ -6,7 +6,7 @@ from crewai.project import CrewBase, agent, task, crew
 from langchain_community.retrievers import TavilySearchAPIRetriever
 from crewai_tools import SerperDevTool, ScrapeWebsiteTool
 
-from utils.resume.crew.resume_tools import get_linkdin_posts, get_linkdin_profile
+from utils.resume.crew.resume_tools import get_linkdin_profile
 
 load_dotenv()
 
@@ -22,7 +22,6 @@ class ResumeCrew:
         self.task_config = "../config/tasks.yaml"
         self.search_retriever = TavilySearchAPIRetriever(k=5, api_key=os.getenv("TAVILY_API_KEY"))
         self.linkdin_retriever = get_linkdin_profile
-        self.linkdin_posts = get_linkdin_posts
         self.serper_tool = SerperDevTool()
         self.scrape_website_tool = ScrapeWebsiteTool()
 
@@ -42,7 +41,6 @@ class ResumeCrew:
             config=self.agent_config['personal_profiler'],
             tools=[
                 self.linkdin_retriever,
-                self.linkdin_posts,
                 self.serper_tool,
                 self.scrape_website_tool
             ],

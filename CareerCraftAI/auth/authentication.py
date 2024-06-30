@@ -1,36 +1,49 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
+from firebase_admin import auth, credentials, initialize_app
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+import firebase_admin
+from schemas.user import UserBase
 
-from auth.oauth2 import create_access_token
-from database.database import get_db
-from database.hashing import Hash
-from database.models import DbUser
 
 router = APIRouter(
-    tags=['authentication']
+    prefix="/auth",
+    tags=["auth"]
 )
 
+cred = credentials.Certificate("auth/careercraftai-96e2b-firebase-adminsdk-viemq-c5dd6364ba.json")
+firebase_admin.initialize_app(cred)
 
-@router.post('/login')
-def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = db.query(DbUser).filter(request.username == DbUser.username).first()
-    if not user:
-        return HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Invalid credentials"
-        )
-    if not Hash(request.password).verify(user.password):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Incorrect password"
-        )
+security = HTTPBearer()
 
-    access_token = create_access_token(data={"username": user.username})
+def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials
+    try:
+        decoded_token = auth.verify_id_token(token)
+        return decoded_token
+    except Exception as e:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
-    return {
-        'access_token': access_token,
-        'access_type': 'bearer',
-        'id': user.id,
-        'username': user.username
-    }
+
+@router.get("/protected")
+def protected_route(token: dict = Depends(verify_token)):
+    return {"message": "This is a protected route", "user_id": token["uid"]}
+
+@router.post("/login")
+async def login(user: UserBase):
+    try:
+        user = auth.get_user_by_email(user.email)
+        
+        custom_token = auth.create_custom_token(user.uid)
+        
+        return {"token": custom_token.decode(), "uid": user.uid}
+    except auth.AuthError:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+@router.post("/logout")
+async def logout(token: dict = Depends(verify_token)):
+    try:
+        # Revoke refresh tokens for the user
+        auth.revoke_refresh_tokens(token["uid"])
+        return {"message": "Successfully logged out"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Logout failed")

@@ -1,14 +1,15 @@
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
 
-from database import models
-from database.database import engine
-from auth import authentication
+
 from fastapi.middleware.cors import CORSMiddleware
+from auth.authentication import router as auth_router
+from router import model
 
 
 app = FastAPI()
-app.include_router(authentication.router)
+app.include_router(auth_router)
+app.include_router(model.router)
 
 
 origins = [
@@ -21,7 +22,5 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
 )
-
-models.Base.metadata.create_all(engine)
 
 app.mount('/pdf', StaticFiles(directory='pdf'), name='pdf')

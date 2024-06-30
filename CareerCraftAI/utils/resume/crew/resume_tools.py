@@ -42,21 +42,6 @@ def get_linkdin_profile(profile: str) -> str:
     return response.json()
 
 
-@tool("get_linkdin_posts_tool", args_schema=Posts)
-def get_linkdin_posts(profile_id: str) -> str:
-    "used to get linkdin posts of the individual."
-    url = f"https://api.lix-it.com/v1/person/li/activity/posts?profile_id={profile_id}"
-
-    payload={}
-    headers = {
-      'Authorization': lixApiKey
-    }
-
-    response = requests.request("GET", url, headers=headers, data=payload)
-
-    return response.json()
-
-
 def pdf_extractor(file_path: str) -> str:
     "used to extract text from pdf file."
     with open(file_path, "rb") as f:
