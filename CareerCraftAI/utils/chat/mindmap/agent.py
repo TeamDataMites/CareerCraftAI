@@ -19,7 +19,7 @@ os.environ['TAVILY_API_KEY'] = os.getenv('TAVILY_API_KEY')
 class Reflexion:
     def __init__(self):
         self.search = TavilySearchResults(max_results=5)
-        self.llm = ChatOpenAI(model='gpt-3.5-turbo-0125').bind_tools(tools=[self.search])
+        self.llm = ChatOpenAI(model='gpt-4o')
         self.llmy = ChatOpenAI(model='gpt-4-turbo-2024-04-09')
 
     def mentor_agent(self, desc: str = None):

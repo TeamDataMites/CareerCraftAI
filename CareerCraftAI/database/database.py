@@ -1,4 +1,5 @@
 from firebase_admin import firestore
+from schemas import item 
 
 # Get a reference to the Firestore database
 db = firestore.client()
@@ -31,14 +32,15 @@ def delete_user(user_id):
     print(f"User {user_id} deleted successfully")
 
 
-def create_doc(email, job_id, description, questions, script):
+def create_doc(data: item.Item, job_id):
     doc_ref = db.collection('documents').document(job_id)
     doc_ref.set({
-        'email': email,
+        'email': data.email,
+        'username': data.username,
         'timestamp': firestore.SERVER_TIMESTAMP,
-        'description': description,
-        'questions': questions,
-        'script': script
+        'description': data.description,
+        'questions': data.questions,
+        'script': data.script
     })
 
     print(f"Document {job_id} created successfully")
