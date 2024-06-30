@@ -34,7 +34,7 @@ const ResumeBuild = () => {
 
   return (
     <div>
-      <h2>Build Your Resume</h2>
+      <h2>Optimize Your Resume</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Upload CV:

@@ -1,9 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import './CSS/Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { username } = location.state || {};
 
   const navigateTo = (path) => {
     navigate(path);
@@ -12,10 +14,10 @@ const Home = () => {
   return (
     <div className="container">
       <h2>Home Page</h2>
-      <p>Welcome to the Home page!</p>
+      <p>Welcome, {username ? username : 'Guest'}!</p>
       <div onClick={() => navigateTo('/build-resume')} className="card">
-        <h3>Build Resume</h3>
-        <p>Start building your professional resume with our easy-to-use tools.</p>
+        <h3>Optimize Resume</h3>
+        <p>Start Optimize your professional resume with our easy-to-use tools.</p>
       </div>
       <div onClick={() => navigateTo('/build-cover-letter')} className="card">
         <h3>Build Cover Letter</h3>
