@@ -19,7 +19,7 @@ WORKDIR /app
 RUN pip3 install --upgrade pip
 
 # Install Python dependencies
-RUN pip3 install fastapi uvicorn python-multipart opencv-python pytesseract pillow flask
+RUN pip3 install fastapi uvicorn python-multipart opencv-python pytesseract pillow flask flask-cors
 
 # Expose port 80
 EXPOSE 8000

@@ -25,7 +25,7 @@ const PrepareInterview = () => {
 
   const handleGenerateMindmap = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/prediction/mindmap/?desc=${encodeURIComponent(jobDescription)}`);
+      const response = await fetch(`http://localhost:8000/prediction/mindmap/?desc=${encodeURIComponent(jobDescription)}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -42,6 +42,50 @@ const PrepareInterview = () => {
     }
   };
 
+  const handleExtractText = async () => {
+    const fileInput = document.querySelector('input[type="file"]');
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    try {
+      const response = await fetch('http://localhost:5000/uploader', { method: 'POST', body: formData });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      const request_data = JSON.stringify({ extract_text: data.text });
+
+      const response2 = await fetch('http://localhost:8082/middleware/ocrtextcontext', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: request_data
+      });
+      
+      if (!response2.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data2 = await response2.json();
+      
+      const response3 = await fetch(`http://localhost:8000/prediction/mindmap/?desc=${data2}`)
+
+      console.log('Data2:', data2);
+      console.log('Response3:', response3);
+
+      if (!response3.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data3 = await response3.json();
+      const mindmap = data3.code.replace(/```/g, '').replace('mermaid\n', '');
+
+      navigate('/mindmap', { state: { mindmap: mindmap } });
+
+    } catch (error) {
+      console.error('Error extracting text:', error);
+    }
+  }
+
   return (
     <div className="container">
       <div className="option" onClick={handleImageClick}>
@@ -57,6 +101,9 @@ const PrepareInterview = () => {
             Upload Job Flyer:
             <input type="file" accept="image/*" />
           </label>
+          <button type="button" onClick={handleExtractText}>
+            Generate Mindmap
+          </button>
         </form>
       )}
 
