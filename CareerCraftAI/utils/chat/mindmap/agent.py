@@ -16,7 +16,7 @@ os.environ['TAVILY_API_KEY'] = os.getenv('TAVILY_API_KEY')
 
 
 
-class Reflexion:
+class Reflection:
     def __init__(self):
         self.search = TavilySearchResults(max_results=5)
         self.llm = ChatOpenAI(model='gpt-4o')
@@ -55,14 +55,14 @@ class Reflexion:
         return reflect
 
 
-reflexion = Reflexion()
+reflection = Reflection()
 
 def generation_node(state: Sequence[BaseMessage]) -> List[BaseMessage]:
     if len(state) == 1:
-        return reflexion.mentor_agent(desc=state[0].content).invoke({
-                "messages": [HumanMessage(content="Make sure that the road map you created suites the job description.")]
+        return reflection.mentor_agent(desc=state[0].content).invoke({
+                "messages": [HumanMessage(content="Make sure that the road map you created suites the job description & that it contains all the skills necessary for the job.")]
             })
-    return reflexion.mentor_agent(desc=state[0]).invoke({"messages": state})
+    return reflection.mentor_agent(desc=state[0]).invoke({"messages": state})
     
 
 def reflection_node(state: Sequence[BaseMessage]) -> List[BaseMessage]:
@@ -76,7 +76,7 @@ def reflection_node(state: Sequence[BaseMessage]) -> List[BaseMessage]:
         cls_map[msg.type](content=msg.content) for msg in state[1:]
     ]
 
-    res = reflexion.reflection().invoke({"messages": translated})
+    res = reflection.reflection().invoke({"messages": translated})
 
     return HumanMessage(content=res.content)
 
@@ -88,8 +88,8 @@ builder.add_node("reflect", reflection_node)
 builder.set_entry_point("generate")
 
 def should_continue(state: List[BaseMessage]):
-    if len(state) > 3:
-        # End after 3 iterations
+    if len(state) > 5:
+        # End after 5 iterations
         return END
     return "reflect"
 

@@ -1,6 +1,6 @@
 research_jobs:
   description: >
-    Analyze the job posting URL provided ({job_posting_url}) to extract key skills, experiences, and qualifications required. 
+    Analyze the job post provided ::<JOB_POST> ({job_post}) </JOB_POST> to extract key skills, experiences, and qualifications required. 
     Analyze the company who posted the job to understand their background and what they would expect from a candidate.
     Use the tools to gather content and identify and categorize the requirements.
 
@@ -12,7 +12,7 @@ research_jobs:
 create_personal_profile:
   description: >
     Compile a detailed personal and professional profile using the GitHub ({github_url}) URLs, 
-    personal write-up ({personal_writeup}), gather profile information from user linkdin {linkdin_url} URL, and use {linkdin_id} to gather information on posts user has made on linkdin.
+    personal write-up ({personal_writeup}), gather profile information from user linkdin {linkdin_url} URL.
     Use the provided resume {resume} to extract additional information on skills and experiences.
     Utilize tools to extract and synthesize information from these sources.
 
@@ -28,8 +28,7 @@ create_resume_strategy:
     reflect on whether the resume is improved compared with the provided resume.
 
   expected_output: >
-    An updated resume that is tailored to the job requirements, highlighting the most relevant skills, experiences, and qualifications.
-    A reflection on the improvements made to the resume compared to the original version.
+    An updated resume that is tailored to the job requirements, highlighting the most relevant skills, experiences, and qualifications. 
 
 
 interview_preperation_task:
@@ -44,7 +43,7 @@ interview_preperation_task:
 
 quality_control:
   description: >
-    Review the resume provided and compare it with the job requirements and the personal profile. 
+    Reflect on what could be improved in the resume and provide review the resume provided and compare it with the job requirements and the personal profile. 
     Provide feedback on the resume, including any areas that need improvement or adjustment.
     If the resume meets the requirements, provide final approval.
 
