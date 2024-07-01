@@ -1,11 +1,12 @@
 import os
 from dotenv import load_dotenv
-from crewai import Task, Agent, Crew, Process
+from crewai import Task, Agent, Crew
 from crewai.project import CrewBase, agent, task, crew
 from langchain_community.tools.tavily_search import TavilySearchResults
 from crewai_tools import SerperDevTool, ScrapeWebsiteTool
 
 from utils.resume.crew.resume_tools import get_linkdin_profile
+from langchain_openai import ChatOpenAI
 
 load_dotenv()
 
@@ -23,6 +24,8 @@ class ResumeCrew:
         self.linkdin_retriever = get_linkdin_profile
         self.serper_tool = SerperDevTool()
         self.scrape_website_tool = ScrapeWebsiteTool()
+        self.llm = ChatOpenAI(model='gpt-3.5-turbo')
+        self.tool_llm = ChatOpenAI(model='gpt-4o')
 
     @agent
     def job_researcher(self) -> Agent:
@@ -31,8 +34,9 @@ class ResumeCrew:
             tools=[
                 self.search_retriever
             ],
+            llm=self.llm,
             verbose=True,
-            max_iter=1
+            max_iter=5
         )
 
     @agent
@@ -44,8 +48,9 @@ class ResumeCrew:
                 self.serper_tool,
                 self.scrape_website_tool
             ],
+            llm=self.tool_llm,
             verbose=True,
-            max_iter=2
+            max_iter=5
         )
 
     @agent
@@ -53,7 +58,7 @@ class ResumeCrew:
         return Agent(
             config=self.agents_config['resume_strategist'],
             verbose=True,
-            max_iter=2
+            llm=self.tool_llm
         )
 
     @agent
@@ -61,7 +66,7 @@ class ResumeCrew:
         return Agent(
             config=self.agents_config['resume_editor'],
             verbose=True,
-            max_iter=1
+            llm=self.llm,
         )
 
     @task
@@ -94,7 +99,7 @@ class ResumeCrew:
         return Task(
             config=self.tasks_config['quality_control'],
             agent=self.resume_editor(),
-            context=[self.create_resume_strategy(), self.create_personal_profile()],
+            context=[self.create_resume_strategy()],
             output_file="resume-final.md"
         )
     
@@ -103,6 +108,5 @@ class ResumeCrew:
         return Crew(
             agents=self.agents,
             tasks=self.tasks,
-            process=Process.sequential,
             verbose=True
         )

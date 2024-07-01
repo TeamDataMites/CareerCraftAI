@@ -28,8 +28,7 @@ create_resume_strategy:
     reflect on whether the resume is improved compared with the provided resume.
 
   expected_output: >
-    An updated resume that is tailored to the job requirements, highlighting the most relevant skills, experiences, and qualifications.
-    A reflection on the improvements made to the resume compared to the original version.
+    An updated resume that is tailored to the job requirements, highlighting the most relevant skills, experiences, and qualifications. 
 
 
 interview_preperation_task:
@@ -44,7 +43,7 @@ interview_preperation_task:
 
 quality_control:
   description: >
-    Review the resume provided and compare it with the job requirements and the personal profile. 
+    Reflect on what could be improved in the resume and provide review the resume provided and compare it with the job requirements and the personal profile. 
     Provide feedback on the resume, including any areas that need improvement or adjustment.
     If the resume meets the requirements, provide final approval.
 
