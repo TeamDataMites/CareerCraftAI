@@ -6,6 +6,7 @@ import CoverLetter from './pages/CoverLetter';
 import PrepareInterview from './pages/PrepareInterview';
 import CoverLetterDisplay from './pages/CoverLetterDisplay';
 import Login from './pages/Login';
+import MindMap from './pages/MindMap';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/build-cover-letter" element={<CoverLetter />} />
         <Route path="/prepare-interview" element={<PrepareInterview />} />
         <Route path="/cover-letter" element={<CoverLetterDisplay />} />
+        <Route path="/mindmap" element={<MindMap />} />
       </Routes>
     </Router>
   );
