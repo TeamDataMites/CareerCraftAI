@@ -2,8 +2,9 @@ import os
 from fastapi import APIRouter, BackgroundTasks
 from schemas.item import PersonalData
 from utils.chat.mindmap.agent import mindmap_agent
-from utils.resume.crew.resume_run import resume_crew
+from utils.resume.crew.resume_run import resume_crew, resume_save
 from utils.chat.report.agent import run_report_agent
+from database.database import db
 
 router = APIRouter(
     prefix="/prediction",
@@ -27,13 +28,15 @@ async def mindmap(desc: str):
             summary="endpoint to use cv finetune in the background"
             )
 async def finetune(personalData: PersonalData, background_tasks: BackgroundTasks, task_name: str = "cv_task"):
-    background_tasks.add_task(resume_crew, 
+    background_tasks.add_task(resume_save,
+                              task_name, 
                               linkdin_url=personalData.linkdin_url, 
                               github_url=personalData.github_url, 
                               personal_writeup=personalData.personal_writeup, 
                               job_post=personalData.job_post, 
                               resume=personalData.resume
                             )
+    
     return {"message": "background task started for cv task", "taskId": task_name}
 
 
@@ -48,6 +51,20 @@ async def get_result():
             content = file.read()
         return {"result": content}
     return {"result": "Analysis not complete or file not found"}
+
+
+@router.get('/cv/{task_name}', description="get finetuned cv from firestore")
+async def get_cv(task_name: str):
+    task_doc = db.collection('tasks').document(task_name).get()
+    if not task_doc.exists:
+        return {"status": "not found"}
+    
+    task_data = task_doc.to_dict()
+    
+    if task_data['status'] == 'completed':
+        return {"status": "completed", "result": task_data['result']}
+    
+    return {"status": task_data['status']}
 
 
 @router.post(
@@ -71,8 +88,9 @@ async def get_cv(personalData: PersonalData):
             description="get detailed report on the job and company given a description",
             summary="job report"
             )
-async def get_job_report(desc: str):
-    report = await run_report_agent(desc)
+async def get_job_report(job_poster: str, desc: str):
+    description: str = f"Posted by: {job_poster} \n\n {desc}"
+    report = await run_report_agent(description)
     return {"report": report}
 
 
@@ -82,6 +100,4 @@ async def get_job_report(desc: str):
             )
 async def generate_lecture(topic: str, domain: str):
     pass
-
-
 
