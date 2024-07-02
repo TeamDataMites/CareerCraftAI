@@ -7,6 +7,7 @@ import PrepareInterview from './pages/PrepareInterview';
 import CoverLetterDisplay from './pages/CoverLetterDisplay';
 import Login from './pages/Login';
 import MindMap from './pages/MindMap';
+import JobResearch from './pages/JobReserach';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/prepare-interview" element={<PrepareInterview />} />
         <Route path="/cover-letter" element={<CoverLetterDisplay />} />
         <Route path="/mindmap" element={<MindMap />} />
+        <Route path="/job-research" element={<JobResearch/>} />
       </Routes>
     </Router>
   );

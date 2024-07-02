@@ -2,9 +2,12 @@ from flask import Flask, flash, redirect, request, render_template, session, jso
 from utils import extract_text_from_pdf, check_correct, allowed_file, generate_questions, insert_score
 import os
 from pymongo import MongoClient
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'  # Set the secret key
+
+CORS(app)
 
 # MongoDB setup
 # MONGO_URI = os.getenv('MONGO_URI')
@@ -199,4 +202,4 @@ def show_results():
     return render_template('results.html', score=score, results=results)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5050)

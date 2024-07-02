@@ -97,7 +97,7 @@ def extract_questions(content):
     questions = []
     question_count = 0
     for line in lines:
-        # Match lines that start with a letter followed by a period and space
+        # Match lines that start with a letter followed by a period and space(s)
         if re.match(r'^[a-zA-Z]\.\s+', line):
             # Clean up the question text
             question = re.sub(r'^[a-zA-Z]\.\s+', '', line).strip()
@@ -107,6 +107,7 @@ def extract_questions(content):
                 if question_count == 5:
                     break  # Stop after collecting 5 questions
     return questions
+
 
 def query_gemini(prompt):
     headers = {
