@@ -22,11 +22,11 @@ async def mindmap(desc: str):
     return {"code": mermaid_code}
 
 
-@router.get('/cv/',
+@router.post('/cv/',
             description="fine-tune the cv",
             summary="endpoint to use cv finetune in the background"
             )
-async def finetune(personalData: PersonalData, background_tasks: BackgroundTasks):
+async def finetune(personalData: PersonalData, background_tasks: BackgroundTasks, task_name: str = "cv_task"):
     background_tasks.add_task(resume_crew, 
                               linkdin_url=personalData.linkdin_url, 
                               github_url=personalData.github_url, 
@@ -34,7 +34,7 @@ async def finetune(personalData: PersonalData, background_tasks: BackgroundTasks
                               job_post=personalData.job_post, 
                               resume=personalData.resume
                             )
-    return {"message": "background task started for cv task"}
+    return {"message": "background task started for cv task", "taskId": task_name}
 
 
 @router.get(
@@ -50,7 +50,7 @@ async def get_result():
     return {"result": "Analysis not complete or file not found"}
 
 
-@router.get(
+@router.post(
     "/load_direct/",
     description="fine-tune the cv",
     summary="endpoint to load cv finetune directly"
@@ -66,6 +66,7 @@ async def get_cv(personalData: PersonalData):
 
     return {"result": result}
 
+
 @router.get('/job_report/',
             description="get detailed report on the job and company given a description",
             summary="job report"
@@ -74,11 +75,12 @@ async def get_job_report(desc: str):
     report = await run_report_agent(desc)
     return {"report": report}
 
-@router.post('/lecture_note/', 
+
+@router.get('/lecture_note/', 
             summary="AI generated lecture note",
             description="provides a extensivly researched not on a topic of interest."
             )
-async def generate_lecture(topic: str):
+async def generate_lecture(topic: str, domain: str):
     pass
 
 
