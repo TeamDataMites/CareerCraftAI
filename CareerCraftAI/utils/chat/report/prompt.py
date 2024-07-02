@@ -59,7 +59,7 @@ Insights into the company’s interview process.
 
     1.{first_instruction}
     2.Reflect on and critique your report to identify areas for improvement.
-    3.Recommend search queries and resources to research information and enhance your report.
+    3.Recommend search queries and resources to research information and enhance your report (max 3).
 """
 
 SYSTEM_PROMPT_REVISE = """
