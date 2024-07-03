@@ -24,7 +24,7 @@ gen_related_topics_prompt = ChatPromptTemplate.from_template(
         Please list the as many subjects and urls as you can.
 
         Topic of interest: {topic}
-        <NOTE>please provide as much topics as possible the success of the podcast depends on your cooperation</NOTE>
+        <NOTE>please provide as much topics as possible the success of the Lecture and the students depends on your cooperation</NOTE>
     """
 )
 
@@ -99,7 +99,7 @@ refine_outline_prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            """You are a Chief Content Strategist/ Planner of the Lectures at CareerCrafters. You have gathered information from experts and search engines. Now, you are refining the outline of the Podcast. \
+            """You are a Chief Content Strategist/ Planner of the Lectures at CareerCrafters. You have gathered information from experts and search engines. Now, you are refining the outline of the lecture note. \
               You need to make sure that the outline is comprehensive and specific. Refined outline must capture all the gathered information.\
               Topic you are writing about: {topic}
 
@@ -109,7 +109,7 @@ refine_outline_prompt = ChatPromptTemplate.from_messages(
         ),
         (
             "user",
-            "Refine the outline based on your conversations with subject-matter experts:\n\nConversations:\n\n{conversations}\n\nWrite the refined Podcast script outline:",
+            "Refine the outline based on your conversations with subject-matter experts:\n\nConversations:\n\n{conversations}\n\nWrite the refined Lecture note outline:",
         ),
     ]
 )
@@ -120,9 +120,11 @@ section_writer_prompt = ChatPromptTemplate.from_messages(
         (
             "system",
             "You are an experienced senior Lecturer working on a lecture for students. Using your general understanding of students and your teaching experience and Complete your assigned LectureSection from the following outline:\n\n"
-            "{outline}\n\nCite your sources, using the following references:\n\n<Documents>\n{docs}\n<Documents>. Additionally you can use the search results:\n\n<Search>\n{src}\n<Search> to make your answer complete.",
+            "{outline}\n\nCite your sources, using the following references:\n\n<Documents>\n{docs}\n<Documents>. Additionally you can use the search results:\n\n<Search>\n{src}\n<Search> to make your answer complete."
+            "Make sure that your LectureSection has covered in-depth all the necessary information and is easy to understand for the students."
         ),
-        ("user", "Write the full LectureSection for the {section} section. Make sure gradually increase complexity when needed so that all students can understand the concept."),
+        ("user",
+          "Write the full LectureSection for the {section} section. Make sure gradually increase complexity when needed so that all students can understand the concept."),
     ]
 )
 
@@ -131,8 +133,9 @@ writer_prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            "You are the Chief Computer Science Lecturer for Career Crafters. As Chief Computer Science Lecture use your experience in researching to find what else can be improved by using tools, and write the complete Lecture note that will be used by you to conduct the lecture to the students on {topic} using the following section drafts:\n\n"
-            "{draft}\n\nStrictly follow standard Lecture note format guidelines.",
+            "You are the Chief Computer Science Lecturer for Career Crafters. As Chief Computer Science Lecture use your experience and write the complete Lecture note that would provide students with a comprehensive understanding on {topic} using the following section drafts:\n\n"
+            "{draft}\n\nStrictly follow standard Lecture note format guidelines."
+            "NOTE: the students are from {domain} background.",
         ),
         (
             "user",

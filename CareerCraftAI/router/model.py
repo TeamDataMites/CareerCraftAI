@@ -4,6 +4,7 @@ from schemas.item import PersonalData
 from utils.chat.mindmap.agent import mindmap_agent
 from utils.resume.crew.resume_run import resume_crew, resume_save
 from utils.chat.report.agent import run_report_agent
+from utils.chat.notes.agents import run_graph
 from database.database import db
 
 router = APIRouter(
@@ -99,4 +100,5 @@ async def get_job_report(job_poster: str, desc: str):
             description="provides a extensivly researched not on a topic of interest."
             )
 async def generate_lecture(topic: str, domain: str):
-    pass
+    note = await run_graph(topic, domain)
+    return {"note": note}

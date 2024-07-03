@@ -5,3 +5,7 @@ passlib~=1.7.4
 crewai
 starlette~=0.37.2
 langgraph
+wikipedia
+langchain-exa
+langchain-nvidia-ai-endpoints
+qdrant-client
