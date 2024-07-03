@@ -29,7 +29,7 @@ async def mindmap(desc: str):
             )
 async def finetune(personalData: PersonalData, background_tasks: BackgroundTasks, task_name: str = "cv_task"):
     background_tasks.add_task(resume_save,
-                              task_name, 
+                              name=personalData.task_name, 
                               linkdin_url=personalData.linkdin_url, 
                               github_url=personalData.github_url, 
                               personal_writeup=personalData.personal_writeup, 
@@ -90,7 +90,7 @@ async def get_cv(personalData: PersonalData):
             )
 async def get_job_report(job_poster: str, desc: str):
     description: str = f"Posted by: {job_poster} \n\n {desc}"
-    report = await run_report_agent(description)
+    report = run_report_agent(description)
     return {"report": report}
 
 
@@ -100,4 +100,3 @@ async def get_job_report(job_poster: str, desc: str):
             )
 async def generate_lecture(topic: str, domain: str):
     pass
-

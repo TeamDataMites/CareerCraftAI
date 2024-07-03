@@ -11,6 +11,7 @@ class Item(BaseModel):
     
 
 class PersonalData(BaseModel):
+    task_name: str = Field(..., description="unique task name")
     linkdin_url: str = Field(..., 
                              description='linkdin url of applicant'
                              )
