@@ -3,14 +3,11 @@ SQLAlchemy
 pydantic
 passlib
 crewai
-<<<<<<< HEAD
 starlette
 langgraph
-=======
 starlette~=0.37.2
 langgraph
 wikipedia
 langchain-exa
 langchain-nvidia-ai-endpoints
 qdrant-client
->>>>>>> 462348e673df9930301652d42033526c40bd7597
