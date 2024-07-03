@@ -28,7 +28,7 @@ const Home = () => {
         <p>Create a compelling cover letter that highlights your strengths and accomplishments.</p>
       </div>
       <div onClick={() => navigateTo('/prepare-interview')} className="card">
-        <h3>Mind Map for your Job</h3>
+        <h3>Mind Map for your Dream Job</h3>
         <p>Get ready for your interview with our job tips.</p>
       </div>
       <div onClick={() => navigateTo('/job-research')} className="card">
@@ -37,7 +37,7 @@ const Home = () => {
       </div>
       <div onClick={() => navigateToExternal('http://127.0.0.1:5050/')} className="card">
         <h3>Interview Chat Bot</h3>
-        <p>Search for your job.</p>
+        <p>Prepareration questions</p>
       </div>
     </div>
   );

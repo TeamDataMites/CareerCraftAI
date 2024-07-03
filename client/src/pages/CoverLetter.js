@@ -65,8 +65,8 @@ const CoverLetter = () => {
 
   return (
     <div>
-      <h2>Upload Your CV</h2>
       <form onSubmit={handleSubmit}>
+        <h2>Build The Cover Letter</h2>
         <label>
           Upload CV:
           <input type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} />

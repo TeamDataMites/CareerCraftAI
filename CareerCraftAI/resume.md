@@ -1,0 +1,1 @@
+This updated resume is tailored to highlight Anuda Esarith's relevant skills, experiences, and qualifications for the Technical Writer position. It emphasizes technical writing experience, collaboration skills, attention to detail, and strong communication abilities.

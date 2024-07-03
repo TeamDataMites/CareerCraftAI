@@ -100,6 +100,8 @@ const PrepareInterview = () => {
         </div>
       ) : (
         <>
+          <h2>Generate Mind Map</h2>
+          <br></br>
           <div className="option" onClick={handleImageClick}>
             Upload Image
           </div>
