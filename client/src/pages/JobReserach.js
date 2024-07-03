@@ -9,23 +9,47 @@ const JobResearch = () => {
     const [reportGenerated, setReportGenerated] = useState(false);
 
     const handleResearchJob = () => {
-        setLoading(true);  // Set loading to true when API call starts
+        setLoading(true);  
+
         const url = new URL('http://localhost:8000/prediction/job_report');
         url.searchParams.append('job_poster', jobPoster);
         url.searchParams.append('desc', desc);
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                setReport(data.report);  // Set the report state with the fetched data
-                setLoading(false);  // Set loading to false when API call finishes
-                setReportGenerated(true);  // Set reportGenerated to true when report is generated
-            })
-            .catch(error => {
-                console.error('Error fetching job report:', error);
-                setLoading(false);  // Set loading to false if API call fails
-            });
+    
+        const url2 = 'http://localhost:8082/server/saveinmongo';
+        const requestbody = {
+            username : sessionStorage.getItem('username'),
+            desc: desc
+        };
+    
+        fetch(url2, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestbody)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Data saved in MongoDB:', data);
+            return fetch(url);
+        })
+        .then(response => response.json())
+        .then(data => {
+            setReport(data.report);  
+            setLoading(false);  
+            setReportGenerated(true);  
+        })
+        .catch(error => {
+            console.error('Error handling research job:', error);
+            setLoading(false); 
+        });
     };
+    
 
     const handleNewSearch = () => {
         setJobPoster('');

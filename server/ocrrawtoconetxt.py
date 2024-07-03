@@ -1,11 +1,9 @@
 import requests
-from bs4 import BeautifulSoup
 import pandas as pd 
-import sqlite3
 import re
 import json
 import os
-from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
