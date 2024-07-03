@@ -6,6 +6,7 @@ const PrepareInterview = () => {
   const [showImageForm, setShowImageForm] = useState(false);
   const [showTextForm, setShowTextForm] = useState(false);
   const [jobDescription, setJobDescription] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -24,6 +25,7 @@ const PrepareInterview = () => {
   };
 
   const handleGenerateMindmap = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`http://localhost:8000/prediction/mindmap/?desc=${encodeURIComponent(jobDescription)}`);
       if (!response.ok) {
@@ -36,13 +38,15 @@ const PrepareInterview = () => {
 
       navigate('/mindmap', { state: { mindmap: mindmap } });
       
-      
     } catch (error) {
       console.error('Error fetching the mindmap:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleExtractText = async () => {
+    setLoading(true);
     const fileInput = document.querySelector('input[type="file"]');
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
@@ -55,7 +59,7 @@ const PrepareInterview = () => {
       const data = await response.json();
       const request_data = JSON.stringify({ extract_text: data.text });
 
-      const response2 = await fetch('http://localhost:8082/middleware/ocrtextcontext', {
+      const response2 = await fetch('http://localhost:8082/server/ocrtextcontext', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -83,40 +87,50 @@ const PrepareInterview = () => {
 
     } catch (error) {
       console.error('Error extracting text:', error);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div className="container">
-      <div className="option" onClick={handleImageClick}>
-        Upload Image
-      </div>
-      <div className="option" onClick={handleTextClick}>
-        Input Text
-      </div>
+      {loading ? (
+        <div className="loading-screen">
+          Loading...
+        </div>
+      ) : (
+        <>
+          <div className="option" onClick={handleImageClick}>
+            Upload Image
+          </div>
+          <div className="option" onClick={handleTextClick}>
+            Input Text
+          </div>
 
-      {showImageForm && (
-        <form>
-          <label>
-            Upload Job Flyer:
-            <input type="file" accept="image/*" />
-          </label>
-          <button type="button" onClick={handleExtractText}>
-            Generate Mindmap
-          </button>
-        </form>
-      )}
+          {showImageForm && (
+            <form>
+              <label>
+                Upload Job Flyer:
+                <input type="file" accept="image/*" />
+              </label>
+              <button type="button" onClick={handleExtractText}>
+                Generate Mindmap
+              </button>
+            </form>
+          )}
 
-      {showTextForm && (
-        <form>
-          <label>
-            Enter Job Description:
-            <textarea value={jobDescription} onChange={handleJobDescriptionChange} />
-          </label>
-          <button type="button" onClick={handleGenerateMindmap}>
-            Generate Mindmap
-          </button>
-        </form>
+          {showTextForm && (
+            <form>
+              <label>
+                Enter Job Description:
+                <textarea value={jobDescription} onChange={handleJobDescriptionChange} />
+              </label>
+              <button type="button" onClick={handleGenerateMindmap}>
+                Generate Mindmap
+              </button>
+            </form>
+          )}
+        </>
       )}
     </div>
   );

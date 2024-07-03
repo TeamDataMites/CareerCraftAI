@@ -22,7 +22,7 @@ class TextRequest(BaseModel):
     extract_text: str
 
 
-@app.post("/middleware/ocrtextcontext")
+@app.post("/server/ocrtextcontext")
 async def middleware(textrequest: TextRequest):
   cleaned_text = ocrrawtoconetxt.json_clean(textrequest.extract_text)
   

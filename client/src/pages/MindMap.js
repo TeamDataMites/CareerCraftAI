@@ -20,7 +20,7 @@ const MindMap = () => {
 
   return (
     <div>
-      <h1>Mind Map</h1>
+      <h1>Things You Should Know</h1>
       <div className='mermaid'>{mindmap}</div>
     </div>
   );
