@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import jsPDF from 'jspdf';
 
 const ResumeBuild = () => {
   const [cv, setCv] = useState(null);
@@ -61,7 +62,7 @@ const ResumeBuild = () => {
       const responseData = await response.json();
       setResume(responseData.extratedtext);
 
-      const uploadUrl = 'http://localhost:8081/prediction/load_direct';
+      const uploadUrl = 'http://127.0.0.1:8081/prediction/load_direct';
       const response2 = await fetch(uploadUrl, {
         method: 'POST',
         headers: {
@@ -91,25 +92,10 @@ const ResumeBuild = () => {
     }
   };
 
-  const handleDownloadPDF = async () => {
-    try {
-      const downloadUrl = 'http://localhost:8081/download/pdf'; // Replace with actual PDF download endpoint
-      const response = await fetch(downloadUrl);
-      if (!response.ok) {
-        throw new Error('Failed to download PDF');
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(new Blob([blob]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'optimized_resume.pdf');
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
-    } catch (error) {
-      console.error('Error downloading PDF:', error);
-    }
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    doc.text(optimization, 10, 10);
+    doc.save('optimized_resume.pdf');
   };
 
   return (
@@ -118,8 +104,8 @@ const ResumeBuild = () => {
       {!loading && optimization && (
         <div style={styles.resultContainer}>
           <h2 style={styles.heading}>Optimization Result:</h2>
-          <div style={styles.resultBox}>
-            <ReactMarkdown>{optimization}</ReactMarkdown>
+          <div style={styles.resultBox} id="optimization-result">
+            <textarea value={optimization} rows="20" cols="80" style={styles.textarea} />
           </div>
           <button style={styles.button} onClick={handleDownloadPDF}>Download as PDF</button>
           <button style={styles.button} onClick={() => setOptimization('')}>Reset</button>
@@ -185,11 +171,12 @@ const styles = {
     marginBottom: '20px',
   },
   resultBox: {
-    backgroundColor: '#2E2E2E', /* Dark gray */
+    backgroundColor: '#FFFFFF', /* Dark gray */
     padding: '10px',
     borderRadius: '5px',
     marginBottom: '20px',
     textAlign: 'left',
+    color: '#000000', /* Black */
   },
   button: {
     padding: '10px 20px',
@@ -229,6 +216,18 @@ const styles = {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
+  },
+  textarea: {
+    backgroundColor: '#1E1E1E', // Darker blue
+    color: '#FFFFFF', // White
+    padding: '10px',
+    borderRadius: '8px',
+    border: 'none',
+    resize: 'vertical',
+    minHeight: '400px',
+    maxWidth: '100%',
+    minWidth: '80%',
+    marginBottom: '20px',
   },
 };
 

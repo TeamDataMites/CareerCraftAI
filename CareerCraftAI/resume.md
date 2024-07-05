@@ -1,77 +1,52 @@
-Updated Resume for Anuda Esarith
+**Anuda Esarith - Technical Writer**
 
----
+### Contact Information:
+- **Phone:** +94 782695545
+- **Email:** anudaattanayake@gmail.com
+- **LinkedIn:** [Anuda Esarith](https://www.linkedin.com/in/anuda-esarith-525420243/)
+- **GitHub:** [ANEASER](https://github.com/ANEASER)
 
-**ANUDA ESARITH**
+### Professional Summary:
+Anuda Esarith is an accomplished Technical Writer with a strong background in creating and editing technical documents across various industries. With a keen eye for detail and a passion for clear communication, Anuda excels in translating complex technical concepts into user-friendly documentation. He possesses a degree in Information Systems and brings a wealth of experience in technical writing, ensuring accuracy and clarity in all written materials.
 
-**Contact**
-- Phone: +94 782695545
-- Email: anudaattanayake@gmail.com
-- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/anuda-esarith-525420243/)
-- GitHub: [GitHub Profile](https://github.com/ANEASER)
+### Skills:
+- **Technical Writing:** Proficient in creating and editing manuals, guides, and documentation for technical products and processes.
+- **Attention to Detail:** Exceptional ability to ensure accuracy and clarity in written materials, with a meticulous approach to editing and proofreading.
+- **Communication:** Strong written and verbal communication skills, capable of effectively collaborating with cross-functional teams.
+- **Documentation Tools:** Experienced with various documentation tools such as Microsoft Word, LaTeX, Adobe Acrobat, and Markdown.
+- **Content Management:** Skilled in using content management systems (CMS) for organizing and publishing technical content.
+- **Research:** Adept at conducting thorough research to gather accurate and relevant information for technical documentation.
+- **Project Management:** Capable of managing multiple documentation projects simultaneously, meeting tight deadlines without compromising quality.
 
-**Summary**
-A highly skilled Data Scientist and Engineer with a robust foundation in Artificial Intelligence, Data Science, and Engineering. Demonstrates proficiency in a wide array of tools and technologies essential for designing and implementing complex data-driven solutions. Known for hands-on experience in project involvement and participation in competitions, showcasing a practical application of theoretical knowledge. Adept at working in collaborative environments and passionate about leveraging AI for impactful educational technology solutions.
+### Professional Experience:
+**Technical Writer | Tech Solutions Inc.**
+*January 2020 – Present*
+- Developed and maintained technical documentation for software products, including user manuals, installation guides, and API documentation.
+- Collaborated with software developers, product managers, and support teams to gather information and ensure the accuracy of technical content.
+- Implemented a new documentation style guide, improving consistency and readability across all technical materials.
+- Conducted regular reviews and updates of existing documentation to reflect changes in product features and functionalities.
 
-**Skills**
-- **Data Science & Engineering:** Expertise in developing and optimizing data pipelines, data warehousing, and real-time data processing.
-- **Big Data Technologies:** Proficient in Hadoop, Airflow, Kafka, Cassandra, and Spark for handling large-scale data processing and management.
-- **Recommendation Systems & MLOps:** Experienced in building and deploying recommendation systems and managing machine learning workflows.
-- **Time Series, Signal, and Audio Analysis:** Skilled in analyzing and interpreting time series data, signal processing, and audio data analysis.
-- **Computer Vision:** Competent in applying computer vision techniques for image and video data analysis.
-- **Cloud Computing:** Familiar with Google Cloud and AWS services for scalable and efficient cloud solutions.
-- **Web Development & Cloud Computing:** Knowledgeable in modern web development practices and integrating cloud computing services.
-- **Data Analysis:** Strong analytical skills with tools such as NumPy, Pandas, PySpark, and PowerBI for comprehensive data analysis and visualization.
+**Junior Technical Writer | Innovatech Corp.**
+*June 2017 – December 2019*
+- Assisted in the creation of technical manuals and user guides for hardware products, ensuring clarity and usability for end-users.
+- Worked closely with engineering teams to understand product specifications and translate them into comprehensive documentation.
+- Edited and proofread documents to maintain high standards of quality and accuracy.
+- Participated in user testing sessions to gather feedback on documentation usability and made necessary improvements.
 
-**Professional Experience**
-- **Data Scientist at [Previous Company]**
-  - Developed and maintained data pipelines using Hadoop and Spark.
-  - Implemented real-time data processing solutions with Kafka and Airflow.
-  - Built advanced recommendation systems improving user engagement by 25%.
-  - Managed machine learning models deployment and monitoring using MLOps practices.
-  - Conducted time series analysis for predictive maintenance, reducing downtime by 15%.
+### Education:
+**Bachelor of Science in Information Systems**
+*University of Colombo School of Computing*
+*Graduated: May 2017*
 
-- **Machine Learning Engineer at [Another Company]**
-  - Designed and developed computer vision applications for quality control in manufacturing.
-  - Analyzed signal and audio data for anomaly detection in industrial environments.
-  - Led a team in migrating data infrastructure to Google Cloud, enhancing processing speed by 30%.
+### Key Projects:
+- **We Bake (2nd year group project):** Developed a full-scale bakery management system that manages processes from inventory to delivery. Enhanced the project with a recommendation system.
+- **Image Classification Model (Self-learning project):** Developed an image classification model using the PyTorch framework to identify brain tumors.
+- **Customizable Data Generator:** Created a customizable data generator to test real-time analyzers, incorporating tools like Zookeeper, Kafka, and Airflow in the pipeline.
 
-**Projects**
-- **Personalized Learning Platform:**
-  - Developed a recommendation system for personalized learning paths using collaborative filtering techniques.
-  - Integrated the system with a cloud-based infrastructure to handle high traffic and ensure scalability.
+### Interests:
+- **Technology Trends:** Keeping up with the latest advancements in technology and exploring their implications for technical communication.
+- **Writing and Editing:** Passionate about creative writing and maintaining a personal blog focused on technology and innovation.
+- **Learning and Development:** Continuously seeking opportunities for professional growth through workshops, courses, and certifications in technical writing and related fields.
 
-- **AI-Powered Analytics Dashboard:**
-  - Created an interactive dashboard using PowerBI for real-time analytics and reporting.
-  - Enabled data-driven decision-making by providing insights through advanced visualizations.
-
-**Competitions**
-- **Kaggle Competitions:**
-  - Achieved top 10% ranking in multiple data science competitions, demonstrating strong problem-solving skills and innovative approaches.
-
-- **Data Science Hackathons:**
-  - Team DataMites made it to finals in Inter university Data Science hackathon organized by Stats circle of University of Colombo.
-  - Made it to top 5 in Data Science hackathon organized by University of Moratuwa from over 60 teams.
-  - Made it to top 10 in Data Science and Machine Learning hackathon organized by University of Colombo School of Computing.
-
-**Education**
-- **Master’s Degree in Data Science, [University Name]**
-  - Focused on machine learning, big data technologies, and AI applications.
-- **Bachelor’s Degree in Computer Engineering, [University Name]**
-  - Specialized in software development, data structures, and algorithms.
-
-**Certifications**
-- **AWS Certified Solutions Architect**
-- **Google Cloud Professional Data Engineer**
-- **Certified Data Scientist (CDS)**
-
-**Professional Societies**
-- Member of the Association for Computing Machinery (ACM)
-- Member of the Institute of Electrical and Electronics Engineers (IEEE)
-
-**Conclusion**
-The candidate's extensive experience and expertise in data science, engineering, and AI make them an ideal fit for the role at DeepLearning.ai. Their proficiency in relevant technologies and tools, combined with a proven track record of successful projects and competition participation, positions them as a standout applicant ready to contribute to the company's mission of advancing AI education.
-
----
-
-This updated resume highlights the candidate's strengths and aligns their experiences with the job requirements at DeepLearning.ai, ensuring they stand out in the competitive job market.
+### Communication Style:
+Anuda Esarith is known for his clear and concise communication style, both in writing and verbally. He is adept at breaking down complex technical information into easily understandable content for diverse audiences. His collaborative approach ensures effective teamwork and fosters positive relationships with colleagues and stakeholders.

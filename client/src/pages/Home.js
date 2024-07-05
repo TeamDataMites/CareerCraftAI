@@ -153,6 +153,10 @@ const Home = () => {
             <h3 style={styles.serviceTitle}>Interview Chat Bot</h3>
             <p style={styles.serviceDescription}>Preparation questions</p>
           </div>
+          <div onClick={() => navigateToExternal('/lecture-note')} style={styles.service}>
+            <h3 style={styles.serviceTitle}>Lecture Notes</h3>
+            <p style={styles.serviceDescription}>Prepare a lecture note for your job domain</p>
+          </div>
         </div>
       </div>
     </div>
