@@ -81,5 +81,3 @@ async def saveinmongo(searchrequest: SearchRequest):
     result = collection.insert_one(document)
     return JSONResponse(content={"status": "success", "inserted_id": str(result.inserted_id)})
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)

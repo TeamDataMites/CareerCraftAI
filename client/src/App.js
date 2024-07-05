@@ -5,7 +5,7 @@ import ResumeBuild from './pages/ResumeBuild';
 import CoverLetter from './pages/CoverLetter';
 import PrepareInterview from './pages/PrepareInterview';
 import CoverLetterDisplay from './pages/CoverLetterDisplay';
-import Login from './pages/Login';
+import Login from './pages/Log';
 import MindMap from './pages/MindMap';
 import JobResearch from './pages/JobReserach';
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './CSS/ResumeBuild.css';
 import ReactMarkdown from 'react-markdown';
 
 const ResumeBuild = () => {
@@ -9,7 +8,7 @@ const ResumeBuild = () => {
   const [personalWriteup, setPersonalWriteup] = useState('');
   const [jobPost, setJobPost] = useState('');
   const [resume, setResume] = useState('');
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [optimization, setOptimization] = useState('');
 
   const handleCvChange = (event) => {
@@ -62,7 +61,7 @@ const ResumeBuild = () => {
       const responseData = await response.json();
       setResume(responseData.extratedtext);
 
-      const uploadUrl = 'http://localhost:8000/prediction/load_direct';
+      const uploadUrl = 'http://localhost:8081/prediction/load_direct';
       const response2 = await fetch(uploadUrl, {
         method: 'POST',
         headers: {
@@ -92,73 +91,145 @@ const ResumeBuild = () => {
     }
   };
 
-  const handleDownloadPDF = () => {
-    // Create a new iframe element
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
+  const handleDownloadPDF = async () => {
+    try {
+      const downloadUrl = 'http://localhost:8081/download/pdf'; // Replace with actual PDF download endpoint
+      const response = await fetch(downloadUrl);
+      if (!response.ok) {
+        throw new Error('Failed to download PDF');
+      }
 
-    // Set iframe content with the Markdown content to print
-    const content = `<html><body>${optimization}</body></html>`;
-    const doc = iframe.contentWindow.document;
-    doc.open();
-    doc.write(content);
-    doc.close();
-
-    // Print the iframe content
-    iframe.contentWindow.focus();
-    iframe.contentWindow.print();
-
-    // Remove the iframe from the DOM
-    document.body.removeChild(iframe);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'optimized_resume.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+    }
   };
 
   return (
-    <div>
+    <div style={styles.container}>
       {loading && <p>Loading...</p>} {/* Show loading message when loading is true */}
       {!loading && optimization && (
-        <div>
-          <h2>Optimization Result:</h2>
-          <div style={{ margin: '10px', border: '1px solid #ccc', padding: '10px' }}>
+        <div style={styles.resultContainer}>
+          <h2 style={styles.heading}>Optimization Result:</h2>
+          <div style={styles.resultBox}>
             <ReactMarkdown>{optimization}</ReactMarkdown>
           </div>
-          <button onClick={handleDownloadPDF}>Download as PDF</button>
-          <button onClick={() => setOptimization('')}>Reset</button>
+          <button style={styles.button} onClick={handleDownloadPDF}>Download as PDF</button>
+          <button style={styles.button} onClick={() => setOptimization('')}>Reset</button>
         </div>
       )}
       {!loading && !optimization && (
-        <form onSubmit={handleSubmit} disabled={loading}> {/* Disable form when loading */}
-          <h2>Optimize Your Resume</h2>
-          <label>
+        <form onSubmit={handleSubmit} style={styles.form} disabled={loading}> {/* Disable form when loading */}
+          <h2 style={styles.heading}>Optimize Your Resume</h2>
+          <label style={styles.label}>
             Upload CV:
-            <input type="file" accept=".pdf,.doc,.docx" onChange={handleCvChange} />
+            <input type="file" accept=".pdf,.doc,.docx" onChange={handleCvChange} style={styles.input} />
           </label>
           <br />
-          <label>
+          <label style={styles.label}>
             LinkedIn URL:
-            <input type="text" value={linkdinUrl} onChange={handleLinkdinUrlChange} />
+            <input type="text" value={linkdinUrl} onChange={handleLinkdinUrlChange} style={styles.input} />
           </label>
           <br />
-          <label>
+          <label style={styles.label}>
             GitHub URL:
-            <input type="text" value={githubUrl} onChange={handleGithubUrlChange} />
+            <input type="text" value={githubUrl} onChange={handleGithubUrlChange} style={styles.input} />
           </label>
           <br />
-          <label>
+          <label style={styles.label}>
             Personal Writeup:
-            <input type="text" value={personalWriteup} onChange={handlePersonalWriteupChange} />
+            <input type="text" value={personalWriteup} onChange={handlePersonalWriteupChange} style={styles.input} />
           </label>
           <br />
-          <label>
+          <label style={styles.label}>
             Job Post:
-            <input type="text" value={jobPost} onChange={handleJobPostChange} />
+            <input type="text" value={jobPost} onChange={handleJobPostChange} style={styles.input} />
           </label>
           <br />
-          <button type="submit" disabled={loading}>Submit</button> {/* Disable submit button when loading */}
+          <button type="submit" style={styles.submitButton} disabled={loading}>Submit</button> {/* Disable submit button when loading */}
         </form>
       )}
     </div>
   );
+};
+
+const styles = {
+  container: {
+    margin: '0 auto',
+    backgroundColor: '#1E1E1E', /* Darker blue */
+    padding: '20px',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    fontFamily: 'Arial, sans-serif',
+    color: '#FFFFFF', /* White */
+    textAlign: 'center',
+    paddingTop: '50px',
+  },
+  resultContainer: {
+    backgroundColor: '#1E1E1E', /* Darker blue */
+    padding: '20px',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    marginBottom: '20px',
+    textAlign: 'left',
+  },
+  heading: {
+    color: '#BB86FC', /* Light purple */
+    marginBottom: '20px',
+  },
+  resultBox: {
+    backgroundColor: '#2E2E2E', /* Dark gray */
+    padding: '10px',
+    borderRadius: '5px',
+    marginBottom: '20px',
+    textAlign: 'left',
+  },
+  button: {
+    padding: '10px 20px',
+    backgroundColor: '#BB86FC', /* Light purple */
+    color: '#FFFFFF', /* White */
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginRight: '10px',
+  },
+  form: {
+    maxWidth: '600px',
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginLeft: '30%',
+    marginBottom: '90px',
+  },
+  label: {
+    display: 'block',
+    marginBottom: '10px',
+    color: '#FFFFFF', /* White */
+  },
+  input: {
+    padding: '8px',
+    borderRadius: '5px',
+    border: '1px solid #BB86FC', /* Light purple */
+    marginBottom: '10px',
+    width: '100%',
+    boxSizing: 'border-box',
+  },
+  submitButton: {
+    padding: '10px 20px',
+    backgroundColor: '#BB86FC', /* Light purple */
+    color: '#FFFFFF', /* White */
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  },
 };
 
 export default ResumeBuild;

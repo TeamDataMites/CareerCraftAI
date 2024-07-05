@@ -3,11 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Interview - Upload CV</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <title>Bot</title>
+    <style>
+        /* Reset default margin and padding */
+        body, h1, p, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Dark blue */
+            color: #FFFFFF; /* White */
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #1E1E1E; /* Darker blue */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #BB86FC; /* Light purple */
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .messages {
+            background-color: #2E2E2E; /* Dark gray */
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .messages ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .messages ul li {
+            color: #BB86FC; /* Light purple */
+            margin-bottom: 5px;
+        }
+
+        .upload {
+            margin-top: 20px;
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #007bff; /* Light blue */
+            color: #FFFFFF; /* White */
+            border-radius: 5px;
+            border: none;
+            margin-right: 10px;
+        }
+
+        .custom-file-upload i {
+            margin-right: 5px;
+        }
+
+        #file-upload {
+            display: none;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #BB86FC; /* Light purple */
+            color: #FFFFFF; /* White */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #6200ea; /* Dark purple */
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css')}}"/>
 </head>
 <body>
     <div class="container">

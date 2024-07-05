@@ -59,11 +59,11 @@ const JobResearch = () => {
     };
 
     return (
-        <div className="container">
-            <h2>Job Research</h2>
+        <div style={styles.container}>
+            <h2 style={styles.heading}>Job Research</h2>
             {!reportGenerated ? (
-                <form>
-                    <label>
+                <form style={styles.form}>
+                    <label style={styles.label}>
                         Company:
                         <input
                             type="text"
@@ -71,38 +71,130 @@ const JobResearch = () => {
                             value={jobPoster}
                             onChange={(e) => setJobPoster(e.target.value)}
                             disabled={loading}  // Disable input when loading
+                            style={styles.input}
                         />
                     </label>
-                    <label>
+                    <label style={styles.label}>
                         Job Description:
                         <textarea
                             name="desc"
                             value={desc}
                             onChange={(e) => setDesc(e.target.value)}
                             disabled={loading}  // Disable textarea when loading
+                            style={styles.input}
                         />
                     </label>
-                    <button type="button" onClick={handleResearchJob} disabled={loading}>
+                    <button type="button" onClick={handleResearchJob} disabled={loading} style={styles.submitButton}>
                         {loading ? 'Generating Report...' : 'Research Job'}  
                     </button>
                 </form>
             ) : (
-                <div>
-                    <h3>Job Report</h3>
-                    <ReactMarkdown>{report}</ReactMarkdown>
-                    <button type="button" onClick={handleNewSearch}>
+                <div style={{...styles.resultContainer, width: '90%'}}>
+                    <h3 style={styles.heading}>Job Report</h3>
+                    <div style={styles.resultBox}>
+                        <ReactMarkdown>{report}</ReactMarkdown>
+                    </div>
+                    <button type="button" onClick={handleNewSearch} style={styles.button}>
                         Search New
                     </button>
                 </div>
             )}
             {loading && (
-                <div>
+                <div style={styles.loadingContainer}>
                     <p>Loading...</p>
                     <p>This will take some time</p>
                 </div>
             )}
         </div>
     );
+};
+
+const styles = {
+    container: {
+        margin: '0 auto',
+        backgroundColor: '#1E1E1E', /* Darker blue */
+        padding: '20px',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        fontFamily: 'Arial, sans-serif',
+        color: '#FFFFFF', /* White */
+        textAlign: 'center',
+        paddingTop: '50px',
+        height : '100vh',
+    },
+    resultContainer: {
+        backgroundColor: '#1E1E1E', /* Darker blue */
+        padding: '20px',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        marginBottom: '20px',
+        textAlign: 'left',
+    },
+    heading: {
+        color: '#BB86FC', /* Light purple */
+        marginBottom: '20px',
+    },
+    resultBox: {
+        backgroundColor: '#2E2E2E', /* Dark gray */
+        padding: '10px',
+        borderRadius: '5px',
+        marginBottom: '20px',
+        textAlign: 'left',
+    },
+    button: {
+        padding: '10px 20px',
+        backgroundColor: '#BB86FC', /* Light purple */
+        color: '#FFFFFF', /* White */
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        marginRight: '10px',
+        
+    },
+    label: {
+        display: 'block',
+        marginBottom: '10px',
+        color: '#FFFFFF', /* White */
+        marginBottom: '20px',
+    },
+    input: {
+        padding: '8px',
+        borderRadius: '5px',
+        border: '1px solid #BB86FC', /* Light purple */
+        marginBottom: '10px',
+        width: '100%',
+        boxSizing: 'border-box',
+        marginTop: '10px',
+    },
+    submitButton: {
+        padding: '10px 20px',
+        backgroundColor: '#BB86FC', /* Light purple */
+        color: '#FFFFFF', /* White */
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        marginTop: '20px',
+        width : '200px',
+        marginLeft : '32%'
+    },
+    loadingContainer: {
+        backgroundColor: '#1E1E1E', /* Darker blue */
+        padding: '20px',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        textAlign: 'center',
+        marginTop: '20px',
+    },
+
+    form : {
+        maxWidth: '600px',
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        marginLeft: '30%',
+        marginBottom: '90px',
+    },
 };
 
 export default JobResearch;

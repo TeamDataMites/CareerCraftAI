@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './CSS/PrepareInterview.css'; 
 import { useNavigate } from 'react-router-dom';
 
 const PrepareInterview = () => {
@@ -27,14 +26,12 @@ const PrepareInterview = () => {
   const handleGenerateMindmap = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:8000/prediction/mindmap/?desc=${encodeURIComponent(jobDescription)}`);
+      const response = await fetch(`http://127.0.0.1:8081/prediction/mindmap/?desc=${encodeURIComponent(jobDescription)}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
       const mindmap = data.code.replace(/```/g, '').replace('mermaid\n', '');
-
-      console.log('Mindmap:', mindmap);
 
       navigate('/mindmap', { state: { mindmap: mindmap } });
       
@@ -72,10 +69,7 @@ const PrepareInterview = () => {
       }
       const data2 = await response2.json();
       
-      const response3 = await fetch(`http://localhost:8000/prediction/mindmap/?desc=${data2}`)
-
-      console.log('Data2:', data2);
-      console.log('Response3:', response3);
+      const response3 = await fetch(`http://127.0.0.1:8081/prediction/mindmap/?desc=${data2}`)
 
       if (!response3.ok) {
         throw new Error('Network response was not ok');
@@ -93,29 +87,29 @@ const PrepareInterview = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container" style={styles.container}>
       {loading ? (
-        <div className="loading-screen">
+        <div className="loading-screen" style={styles.loadingScreen}>
           Loading...
         </div>
       ) : (
         <>
-          <h2>Generate Mind Map</h2>
-          <br></br>
-          <div className="option" onClick={handleImageClick}>
+          <h2 style={styles.header}>Generate Mind Map</h2>
+          <br />
+          <div className="option" style={styles.option} onClick={handleImageClick}>
             Upload Image
           </div>
-          <div className="option" onClick={handleTextClick}>
+          <div className="option" style={styles.option} onClick={handleTextClick}>
             Input Text
           </div>
 
           {showImageForm && (
             <form>
-              <label>
+              <label style={styles.label}>
                 Upload Job Flyer:
                 <input type="file" accept="image/*" />
               </label>
-              <button type="button" onClick={handleExtractText}>
+              <button type="button" onClick={handleExtractText} style={styles.button}>
                 Generate Mindmap
               </button>
             </form>
@@ -123,11 +117,11 @@ const PrepareInterview = () => {
 
           {showTextForm && (
             <form>
-              <label>
+              <label style={styles.label}>
                 Enter Job Description:
-                <textarea value={jobDescription} onChange={handleJobDescriptionChange} />
+                <textarea value={jobDescription} onChange={handleJobDescriptionChange} style={styles.textarea} />
               </label>
-              <button type="button" onClick={handleGenerateMindmap}>
+              <button type="button" onClick={handleGenerateMindmap} style={styles.button}>
                 Generate Mindmap
               </button>
             </form>
@@ -136,6 +130,58 @@ const PrepareInterview = () => {
       )}
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh',
+    backgroundColor: '#121212', // Dark blue
+    color: '#FFFFFF', // White
+  },
+  loadingScreen: {
+    color: '#FFFFFF', // White
+  },
+  header: {
+    marginBottom: '20px',
+    color: '#BB86FC', // Light purple
+  },
+  option: {
+    backgroundColor: '#1E1E1E', // Darker blue
+    color: '#FFFFFF', // White
+    padding: '10px',
+    margin: '5px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    width: '150px',
+    textAlign: 'center',
+  },
+  label: {
+    marginBottom: '10px',
+    color: '#FFFFFF', // White
+  },
+  textarea: {
+    backgroundColor: '#2E2E2E', // Dark gray
+    color: '#FFFFFF', // White
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #BB86FC', // Light purple
+    width: '100%',
+    minHeight: '150px',
+    resize: 'vertical',
+  },
+  button: {
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    backgroundColor: '#BB86FC', // Light purple
+    color: '#FFFFFF', // White
+    cursor: 'pointer',
+    marginTop: '10px',
+  },
 };
 
 export default PrepareInterview;

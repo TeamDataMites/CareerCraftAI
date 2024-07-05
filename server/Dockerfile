@@ -8,7 +8,7 @@ WORKDIR /app
 
 RUN apt-get update 
 
-RUN pip install fastapi requests pymongo python-dotenv pydantic langchain_community langchain numpy pandas
+RUN pip install fastapi requests pymongo python-dotenv pydantic langchain_community langchain numpy pandas openai
 
 COPY .env /app/.env
 COPY . /app

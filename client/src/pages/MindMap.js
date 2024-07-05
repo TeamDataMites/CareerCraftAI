@@ -19,8 +19,8 @@ const MindMap = () => {
   }, [mindmap]);
 
   return (
-    <div>
-      <h1>Things You Should Know</h1>
+    <div style={{ backgroundColor: '#1E1E1E',padding:'2%'}}>
+      <h1 style={{textAlign:'center', color: '#BB86FC'}}>Things You Should Know</h1>
       <div className='mermaid'>{mindmap}</div>
     </div>
   );

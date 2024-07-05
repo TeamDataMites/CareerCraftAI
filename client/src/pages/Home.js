@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './CSS/Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -111,50 +110,119 @@ const Home = () => {
 
   return (
     <div>
-      <div>
-        <h1 style={{ textAlign: 'center' }}>Welcome, {username ? username : 'Guest'}!</h1>
+      <div style={{backgroundColor:'#1E1E1E',padding:'1%'}}>
+          <h1 style={{color:'#BB86FC'}}>Ready4urInterview</h1>
+          <p style={styles.welcome}>Welcome, {username ? username : 'Guest'}!</p>
       </div>
-      <br />
-      <h3 style={{ textAlign: 'center' }}>Jobs Recommended For You</h3>
-      <div className="container1">
+    <div style={styles.container}>
+      <div style={styles.sidebar}>
+        <h2 style={styles.header}>Recommended Jobs</h2>
         {Object.keys(recommends).length > 0 ? (
           Object.keys(recommends).map((key) => (
-            <div key={key} className="job-item" onClick={() => window.open(recommends[key]["Job Link"], '_blank')}>
-              <h3>{recommends[key]["Job Title"]}</h3>
-              <p>{recommends[key]["Company"]}</p>
+            <div key={key} style={styles.jobitem} onClick={() => window.open(recommends[key]["Job Link"], '_blank')}>
+              <h3 style={styles.jobTitle}>{recommends[key]["Job Title"]}</h3>
+              <p style={styles.company}>{recommends[key]["Company"]}</p>
             </div>
           ))
         ) : (
-          <p style={{ textAlign: 'center' }}>
+          <p style={styles.noRecommendations}>
             {Object.keys(recommends).length === 0 && "No recommendations available."}
           </p>
         )}
       </div>
-      <h3 style={{ textAlign: 'center' }}>Our Services For You</h3>
-      <div className="container1">
-        <div onClick={() => navigateTo('/build-resume')} className="card">
-          <h3>Optimize Resume</h3>
-          <p>Start optimizing your professional resume with our easy-to-use tools.</p>
-        </div>
-        <div onClick={() => navigateTo('/build-cover-letter')} className="card">
-          <h3>Build Cover Letter</h3>
-          <p>Create a compelling cover letter that highlights your strengths and accomplishments.</p>
-        </div>
-        <div onClick={() => navigateTo('/prepare-interview')} className="card">
-          <h3>Mind Map for your Dream Job</h3>
-          <p>Get ready for your interview with our job tips.</p>
-        </div>
-        <div onClick={() => navigateTo('/job-research')} className="card">
-          <h3>Job Research</h3>
-          <p>Search for your job.</p>
-        </div>
-        <div onClick={() => navigateToExternal('http://127.0.0.1:5050/')} className="card">
-          <h3>Interview Chat Bot</h3>
-          <p>Preparation questions</p>
+      <div style={styles.mainContent}>
+        <h2 style={styles.header}>Our Services</h2>
+        <div style={{display:'flex',flexWrap:'wrap'}}>
+          <div onClick={() => navigateTo('/build-resume')} style={styles.service}>
+            <h3 style={styles.serviceTitle}>Optimize Resume</h3>
+            <p style={styles.serviceDescription}>Start optimizing your professional resume with our easy-to-use tools.</p>
+          </div>
+          <div onClick={() => navigateTo('/build-cover-letter')} style={styles.service}>
+            <h3 style={styles.serviceTitle}>Build Cover Letter</h3>
+            <p style={styles.serviceDescription}>Create a compelling cover letter that highlights your strengths and accomplishments.</p>
+          </div>
+          <div onClick={() => navigateTo('/prepare-interview')} style={styles.service}>
+            <h3 style={styles.serviceTitle}>Mind Map for your Dream Job</h3>
+            <p style={styles.serviceDescription}>Get ready for your interview with our job tips.</p>
+          </div>
+          <div onClick={() => navigateTo('/job-research')} style={styles.service}>
+            <h3 style={styles.serviceTitle}>Job Research</h3>
+            <p style={styles.serviceDescription}>Search for your job.</p>
+          </div>
+          <div onClick={() => navigateToExternal('http://127.0.0.1:5050/')} style={styles.service}>
+            <h3 style={styles.serviceTitle}>Interview Chat Bot</h3>
+            <p style={styles.serviceDescription}>Preparation questions</p>
+          </div>
         </div>
       </div>
     </div>
+  </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    backgroundColor: '#121212',
+    color: '#FFFFFF',
+    height: '100vh',
+    marginTop: '-21px',
+  },
+  sidebar: {
+    width: '360px',
+    padding: '20px',
+    backgroundColor: '#1E1E1E',
+  },
+  header: {
+    color: '#BB86FC',
+  },
+  jobitem: {
+    backgroundColor: '#2E2E2E',
+    padding: '10px',
+    margin: '10px 0',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    border: '1px solid #BB86FC',
+  },
+  jobTitle: {
+    color: '#BB86FC',
+  },
+  company: {
+    color: '#FFFFFF',
+  },
+  noRecommendations: {
+    textAlign: 'center',
+    color: '#BB86FC',
+  },
+  mainContent: {
+    flex: 1,
+    padding: '20px',
+  },
+  welcome: {
+    color: '#BB86FC',
+  },
+  services: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  service: {
+    backgroundColor: '#2E2E2E',
+    padding: '10px',
+    margin: '10px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    width: '400px',
+    height: '100px',
+    border: '1px solid #BB86FC',
+  },
+  serviceTitle: {
+    color: '#BB86FC',
+  },
+  serviceDescription: {
+    color: '#FFFFFF',
+  },
 };
 
 export default Home;
