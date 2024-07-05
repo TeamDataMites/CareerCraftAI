@@ -1,10 +1,14 @@
 from fastapi import FastAPI
-from starlette.staticfiles import StaticFiles
-
+from fastapi.staticfiles import StaticFiles
+from langchain_community.cache import GPTCache
+from langchain.globals import set_llm_cache
 
 from fastapi.middleware.cors import CORSMiddleware
 from auth.authentication import router as auth_router
+from cache import init_gptcache
 from router import model
+
+#set_llm_cache(GPTCache(init_gptcache))
 
 
 app = FastAPI()

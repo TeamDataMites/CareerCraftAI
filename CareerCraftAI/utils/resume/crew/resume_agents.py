@@ -66,7 +66,7 @@ class ResumeCrew:
         return Agent(
             config=self.agents_config['resume_editor'],
             verbose=True,
-            llm=self.llm,
+            llm=self.tool_llm,
         )
 
     @task
