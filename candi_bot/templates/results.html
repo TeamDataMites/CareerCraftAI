@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <style>
+        /* Reset default margin and padding */
+        body, h1, p, ul, li, a {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Dark blue */
+            color: #FFFFFF; /* White */
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Heading styles */
+        h1 {
+            color: #BB86FC; /* Light purple */
+            margin-bottom: 20px;
+        }
+
+        /* Paragraph styles */
+        p {
+            color: #FFFFFF; /* White */
+            margin-bottom: 10px;
+        }
+
+        /* List styles */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        /* Link styles */
+        a {
+            color: #BB86FC; /* Light purple */
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Results</h1>
+    <p>Score: {{ score }}%</p>
+
+    <ul>
+        {% for question, answer, is_correct in results %}
+            <li>
+                <strong>Question:</strong> {{ question }}<br>
+                <strong>Your Answer:</strong> {{ answer }}<br>
+                <strong>Correct:</strong> {{ is_correct }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">Upload another PDF</a>
+</body>
+</html>

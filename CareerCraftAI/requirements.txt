@@ -1,8 +1,10 @@
 fastapi
-SQLAlchemy~=2.0.30
-pydantic~=2.7.4
-passlib~=1.7.4
+SQLAlchemy
+pydantic
+passlib
 crewai
+starlette
+langgraph
 starlette~=0.37.2
 langgraph
 wikipedia

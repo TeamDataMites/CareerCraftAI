@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        /* Reset default margin and padding */
+        body, h1, p, input, button {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Dark blue */
+            color: #FFFFFF; /* White */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Chat container styles */
+        .chat {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background-color: #1E1E1E; /* Darker blue */
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .card-header {
+            background-color: #1E1E1E; /* Darker blue */
+            border-bottom: none;
+        }
+
+        .msg_head {
+            padding: 15px 20px;
+        }
+
+        .user_img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .user_info {
+            margin-left: 15px;
+            color: #BB86FC; /* Light purple */
+        }
+
+        .card-body {
+            overflow-y: auto;
+            background-color: #121212; /* Dark blue */
+            padding: 20px;
+            height: calc(100% - 130px); /* Adjust for card header and footer */
+        }
+
+        .card-footer {
+            background-color: #1E1E1E; /* Darker blue */
+            border-top: none;
+        }
+
+        .type_msg {
+            background-color: #2E2E2E; /* Dark gray */
+            border: 1px solid #BB86FC; /* Light purple */
+            color: #FFFFFF; /* White */
+            border-radius: 25px;
+            padding: 10px 20px;
+        }
+
+        .send_btn {
+            background-color: #BB86FC; /* Light purple */
+            color: #FFFFFF; /* White */
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .send_btn:hover {
+            background-color: #6200ea; /* Dark purple */
+        }
+
+        /* Message styles */
+        .msg_cotainer {
+            max-width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            background-color: #2E2E2E; /* Dark gray */
+        }
+
+        .msg_cotainer_send {
+            max-width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            margin-left: auto;
+            border-radius: 10px;
+            background-color: #6200ea; /* Dark purple */
+            color: #FFFFFF; /* White */
+            text-align: right;
+        }
+
+        .msg_time_send {
+            margin-left: 6px;
+            color: #BB86FC; /* Light purple */
+            font-size: 12px;
+        }
+
+        .img_cont_msg {
+            width: 50px;
+            overflow: hidden;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .user_img_msg {
+            width: 100%;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid h-100">
+        <div class="row justify-content-center h-100">        
+            <div class="col-md-8 col-xl-6 chat">
+                <div class="card">
+                    <div class="card-header msg_head">
+                        <div class="d-flex bd-highlight">
+                            <div class="img_cont">
+                            </div>
+                            <div class="user_info">
+                                <p>Ready to interview !</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="messageFormeight" class="card-body msg_card_body">                            
+                    </div>
+                    <div class="card-footer">
+                        <form id="messageArea" class="input-group">
+                            <input type="text" id="text" name="answer" placeholder="Type your message..." autocomplete="off" class="form-control type_msg" required/>
+                            <div class="input-group-append">
+                                <button type="submit" id="send" class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            let submissionCount = 0;
+            const maxSubmissions = 8;
+            const initialUrl = "/submit_answer";
+            const alternateUrl = "/submit_hr_answers";
+            const getInitialQuestionUrl = "/get_question";
+            const getHrQuestionUrl = "/get_hr_question"; // Make sure this endpoint is defined in your Flask app
+            // Function to get the next question
+            function getQuestion() {
+                const questionUrl = submissionCount < maxSubmissions ? getInitialQuestionUrl : getHrQuestionUrl;
+                $.ajax({
+                    url: questionUrl,
+                    type: "GET",
+                    success: function(data) {
+                        if (data.error) {
+                            $("#messageFormeight").append('<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' + data.error + '</div></div>');
+                            return;
+                        }
+                        var botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' + data.question + '</div></div>';
+                        $("#messageFormeight").append(botHtml);
+                    }
+                });
+            }
+
+            // Get the first question when the page loads
+            getQuestion();
+
+            $("#messageArea").on("submit", function(event) {
+                event.preventDefault();
+                
+                const date = new Date();
+                const hour = date.getHours();
+                const minute = date.getMinutes();
+                const str_time = hour+":"+minute;
+                
+                var rawText = $("#text").val();
+                var userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">' + str_time + '</span></div><div class="img_cont_msg"><img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg"></div></div>';
+                
+                $("#text").val("");
+                $("#messageFormeight").append(userHtml);
+
+                $.ajax({
+                    data: { answer: rawText },
+                    type: "POST",
+                    url: submissionCount < maxSubmissions ? initialUrl : alternateUrl,
+                    success: function(data) {
+                        if (data.error) {
+                            var botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' + data.error + '</div></div>';
+                            $("#messageFormeight").append(botHtml);
+                        } else {
+                            submissionCount++;
+                            getQuestion();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
