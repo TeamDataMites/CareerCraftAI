@@ -33,12 +33,13 @@ os.environ['TAVILY_API_KEY'] = os.getenv('TAVILY_API_KEY')
 
 llm = ChatOpenAI(model='gpt-4o')
 llmy = ChatOpenAI(model='gpt-4-turbo-2024-04-09')
+llmx = ChatOpenAI(model='gpt-3.5-turbo')
 
 
-generate_outline_chain = outline_llm_prompt | llm.with_structured_output(Outline)
+generate_outline_chain = outline_llm_prompt | llmx.with_structured_output(Outline)
 expand_chain = gen_related_topics_prompt | llm.with_structured_output(RelatedSubjects)
 gen_perspectives_chain = gen_perspectives_prompt | llm.with_structured_output(Perspectives)
-gen_queries_chain = gen_queries_prompt | llm.with_structured_output(Queries, include_raw=True)
+gen_queries_chain = gen_queries_prompt | llmx.with_structured_output(Queries, include_raw=True)
 gen_answers_chain = gen_answer_prompt | llmy.with_structured_output(AnswerWithCitations, include_raw=True)
 refine_outline_chain = refine_outline_prompt | llm.with_structured_output(Outline)
 write_section_chain = retrieve | section_writer_prompt | llm.with_structured_output(LectureSection)
