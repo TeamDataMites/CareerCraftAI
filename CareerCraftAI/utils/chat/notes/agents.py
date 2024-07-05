@@ -1,10 +1,9 @@
 import json
 import asyncio
-from typing import List, Optional, Sequence, TypedDict 
+from typing import Optional
 from langgraph.graph import END, StateGraph
 from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, ToolMessage
+from langchain_core.messages import AIMessage, ToolMessage
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnableConfig
@@ -34,16 +33,15 @@ os.environ['TAVILY_API_KEY'] = os.getenv('TAVILY_API_KEY')
 
 llm = ChatOpenAI(model='gpt-4o')
 llmy = ChatOpenAI(model='gpt-4-turbo-2024-04-09')
-llmx = ChatOpenAI(model='gpt-3.5-turbo')
 
 
 generate_outline_chain = outline_llm_prompt | llm.with_structured_output(Outline)
 expand_chain = gen_related_topics_prompt | llm.with_structured_output(RelatedSubjects)
-gen_perspectives_chain = gen_perspectives_prompt | llmy.with_structured_output(Perspectives)
+gen_perspectives_chain = gen_perspectives_prompt | llm.with_structured_output(Perspectives)
 gen_queries_chain = gen_queries_prompt | llm.with_structured_output(Queries, include_raw=True)
 gen_answers_chain = gen_answer_prompt | llmy.with_structured_output(AnswerWithCitations, include_raw=True)
 refine_outline_chain = refine_outline_prompt | llm.with_structured_output(Outline)
-write_section_chain = retrieve | section_writer_prompt | llmy.with_structured_output(LectureSection)
+write_section_chain = retrieve | section_writer_prompt | llm.with_structured_output(LectureSection)
 write_lecture_chain = writer_prompt | llm | StrOutputParser()
 
 # class LectureGenerator:
@@ -103,7 +101,7 @@ async def generate_question(state: InterviewState):
     gn_chain = (
         RunnableLambda(swap_roles).bind(name=editor.name)
         | gen_qa_prompt.partial(persona=editor.persona)
-        | llmx
+        | llmy
         | RunnableLambda(tag_with_name).bind(name=editor.name)
     )
     result = await gn_chain.ainvoke(state)

@@ -121,7 +121,6 @@ section_writer_prompt = ChatPromptTemplate.from_messages(
             "system",
             "You are an experienced senior Lecturer working on a lecture for students. Using your general understanding of students and your teaching experience and Complete your assigned LectureSection from the following outline:\n\n"
             "{outline}\n\nCite your sources, using the following references:\n\n<Documents>\n{docs}\n<Documents>. Additionally you can use the search results:\n\n<Search>\n{src}\n<Search> to make your answer complete."
-            "Make sure that your LectureSection has covered in-depth all the necessary information and is easy to understand for the students."
         ),
         ("user",
           "Write the full LectureSection for the {section} section. Make sure gradually increase complexity when needed so that all students can understand the concept."),

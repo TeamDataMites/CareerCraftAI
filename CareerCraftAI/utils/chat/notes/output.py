@@ -113,7 +113,7 @@ class LectureSection(BaseModel):
     content: str = Field(..., title="Full content of the section")
     subsections: Optional[List[LectureSubSection]] = Field(
         default=None,
-        title="Titles and descriptions for each subsection of the Lecture.",
+        title="Titles and descriptions (content) for each subsection of the Lecture.",
     )
     citations: List[str] = Field(default_factory=list)
 
