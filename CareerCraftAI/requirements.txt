@@ -11,3 +11,4 @@ wikipedia
 langchain-exa
 langchain-nvidia-ai-endpoints
 qdrant-client
+gptcache

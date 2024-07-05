@@ -43,10 +43,13 @@ interview_preperation_task:
 
 quality_control:
   description: >
-    Reflect on what could be improved in the resume and provide review the resume provided and compare it with the job requirements and the personal profile. 
-    Provide feedback on the resume, including any areas that need improvement or adjustment.
-    If the resume meets the requirements, provide final approval.
+    The AI CV Quality Control Agent is designed to enhance and optimize resumes for job applications. Leveraging advanced algorithms and machine learning, this AI agent performs the following tasks:
+    ATS Compatibility Check: Analyzes the CV to ensure it is formatted correctly for Applicant Tracking Systems, increasing the likelihood of passing initial automated screenings.
+    Content Quality Analysis: Evaluates the content for clarity, relevance, and impact, ensuring that key skills and experiences are effectively highlighted.
+    Grammar and Style Review: Checks for grammatical errors, stylistic consistency, and overall readability, making the CV polished and professional.
+    Keyword Optimization: Identifies and suggests relevant keywords and phrases based on the job description, enhancing the CV's alignment with specific job requirements.
+    Feedback and Recommendations: Provides actionable feedback and recommendations for improvements, helping candidates refine their CVs to better fit the job market.
+    This AI agent serves as a comprehensive tool for job seekers aiming to create standout CVs that meet both human and automated recruiter standards.
 
   expected_output: >
-    A detailed review of the resume, including feedback on areas that need improvement or adjustment.
-    Final approval if the resume meets the job requirements and personal profile.
+    An updated resume that has been optimized for ATS compatibility, content quality, grammar and style, keyword optimization, and overall quality. only provide the CV no need any comments.
