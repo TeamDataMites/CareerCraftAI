@@ -25,6 +25,7 @@ create_resume_strategy:
     Using the profile and job requirements obtained from previous tasks and using the provided resume {resume}, tailor the resume to highlight the most relevant areas. 
     Employ tools to adjust and enhance the resume content. Make sure this is the best resume even but don't make up any information. Update every section, 
     inlcuding the initial summary, work experience, skills, projects and education. All to better reflect the candidates abilities and how it matches the job posting.
+    Make sure that you have not added any false information and do not make things up.
     reflect on whether the resume is improved compared with the provided resume.
 
   expected_output: >
