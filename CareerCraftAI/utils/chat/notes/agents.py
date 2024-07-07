@@ -38,7 +38,7 @@ llmx = ChatOpenAI(model='gpt-3.5-turbo')
 
 generate_outline_chain = outline_llm_prompt | llmx.with_structured_output(Outline)
 expand_chain = gen_related_topics_prompt | llm.with_structured_output(RelatedSubjects)
-gen_perspectives_chain = gen_perspectives_prompt | llm.with_structured_output(Perspectives)
+gen_perspectives_chain = gen_perspectives_prompt | llmy.with_structured_output(Perspectives)
 gen_queries_chain = gen_queries_prompt | llmx.with_structured_output(Queries, include_raw=True)
 gen_answers_chain = gen_answer_prompt | llmy.with_structured_output(AnswerWithCitations, include_raw=True)
 refine_outline_chain = refine_outline_prompt | llm.with_structured_output(Outline)
