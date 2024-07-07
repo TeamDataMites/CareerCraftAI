@@ -34,7 +34,7 @@ gen_perspectives_prompt = ChatPromptTemplate.from_messages(
         (
             "system",
             """You need to select a diverse (and distinct) group of Computer Scientist who will work together to create a comprehensive Lecture on the topic. Each of them represents a different perspective, role, or affiliation related to this topic.\
-    You can use other Wikipedia pages of related topics for inspiration. For each editor, add a description of what they will focus on.
+    You can use other Wikipedia pages of related topics for inspiration. For each editor, add a description of what they will focus on. <IMPORTANT> The **name** and **role** of these editors should not have spaces or special characters. <IMPORTANT>\
 
     Wiki page outlines of related topics for inspiration:
     {examples}""",
