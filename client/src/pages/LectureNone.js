@@ -60,6 +60,8 @@ const LectureNone = () => {
                 </form>
             ) : (
                 <div>
+                    <br />
+                    <h3>Topic: {topic}</h3>
                     <div ref={lectureNoteRef} style={styles.lectureNote}>
                         <ReactMarkdown>{lectureNote}</ReactMarkdown>
                     </div>
@@ -78,8 +80,9 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        backgroundColor: '#121212', // Dark blue
         color: '#FFFFFF', // White
+        backgroundColor: '#121212', // Dark blue
+       
     },
     header: {
         marginBottom: '20px',
@@ -112,12 +115,7 @@ const styles = {
         backgroundColor: '#1E1E1E', // Darker blue
         color: '#FFFFFF', // White
         padding: '10px',
-        borderRadius: '8px',
-        border: 'none',
-        width: '80%',
-        maxWidth: '600px',
         marginTop: '20px',
-        whiteSpace: 'pre-wrap', // Preserve whitespace and newlines
     },
 };
 

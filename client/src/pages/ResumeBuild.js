@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import jsPDF from 'jspdf';
+import ReactMarkdown from 'react-markdown';
 
 const ResumeBuild = () => {
   const [cv, setCv] = useState(null);
@@ -105,7 +106,7 @@ const ResumeBuild = () => {
         <div style={styles.resultContainer}>
           <h2 style={styles.heading}>Optimization Result:</h2>
           <div style={styles.resultBox} id="optimization-result">
-            <textarea value={optimization} rows="20" cols="80" style={styles.textarea} />
+            <ReactMarkdown value={optimization} rows="20" cols="80" style={styles.textarea} />
           </div>
           <button style={styles.button} onClick={handleDownloadPDF}>Download as PDF</button>
           <button style={styles.button} onClick={() => setOptimization('')}>Reset</button>
