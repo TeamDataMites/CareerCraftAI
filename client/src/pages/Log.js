@@ -60,9 +60,10 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: '#1E1E1E', // Darker blue
-    padding: '20px',
+    padding: '30px',
     borderRadius: '8px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    width: '500px',
   },
   label: {
     marginBottom: '10px',
