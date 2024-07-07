@@ -157,6 +157,10 @@ const Home = () => {
             <h3 style={styles.serviceTitle}>Lecture Notes</h3>
             <p style={styles.serviceDescription}>Prepare a lecture note for your job domain</p>
           </div>
+          <div onClick={() => navigateTo('/help-desk')} style={styles.service}>
+            <h3 style={styles.serviceTitle}>Get Help</h3>
+            <p style={styles.serviceDescription}>Ai powered Helpdesk ready to assist you.</p>
+          </div>
         </div>
       </div>
     </div>
