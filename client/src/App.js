@@ -9,6 +9,7 @@ import Login from './pages/Log';
 import MindMap from './pages/MindMap';
 import JobResearch from './pages/JobReserach';
 import LectureNone from './pages/LectureNone';
+import Assistant from './pages/VoiceAssistant';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/mindmap" element={<MindMap />} />
         <Route path="/job-research" element={<JobResearch/>} />
         <Route path="/lecture-note" element={<LectureNone />} />
+        <Route path="/help-desk" element={<Assistant/>} />
       </Routes>
     </Router>
   );

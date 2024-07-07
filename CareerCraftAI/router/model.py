@@ -1,10 +1,13 @@
 import os
-from fastapi import APIRouter, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks, HTTPException
+from fastapi.responses import FileResponse
 from schemas.item import PersonalData
 from utils.chat.mindmap.agent import mindmap_agent
 from utils.resume.crew.resume_run import resume_crew, resume_save
 from utils.chat.report.agent import run_report_agent
 from utils.chat.notes.agents import run_graph
+from utils.chat.podcast.llm import tts_to_file, split_text, response
+from utils.chat.podcast.audio import client, options
 from database.database import db
 
 router = APIRouter(
@@ -12,6 +15,7 @@ router = APIRouter(
     tags=["models"]
 )
 
+memory_store = {}
 
 @router.get("/mindmap/", 
             description="Generate a mindmap from a job description.", 
@@ -101,4 +105,24 @@ async def get_job_report(job_poster: str, desc: str):
             )
 async def generate_lecture(topic: str, domain: str):
     note = await run_graph(topic, domain)
+    memory_store['note'] = note
     return {"note": note}
+
+
+@router.get('/tts/', summary="text to speech", description="convert text to speech")
+async def generate_tts():
+    output_file = "output_txl.mp3"
+    voice_engine = "PlayHT2.0-turbo"
+
+    response_text = response(memory_store['note'])
+    chunks = split_text(response_text)
+    tts_to_file(client, chunks, output_file, voice_engine, options)
+
+    if not os.path.exists(output_file):
+        raise HTTPException(status_code=404, detail="File not found")
+    
+    # Close the client after TTS process is done
+    if client:
+        client.close()
+    
+    return FileResponse(output_file, media_type="audio/mpeg", filename="output_txl.mp3")
