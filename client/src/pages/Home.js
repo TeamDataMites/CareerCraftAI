@@ -111,7 +111,7 @@ const Home = () => {
   return (
     <div>
       <div style={{backgroundColor:'#1E1E1E',padding:'1%',display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-          <h1 style={{color:'#BB86FC',fontSize:'40px'}}>Ready4urInterview</h1>
+          <h1 style={{color:'#BB86FC',fontSize:'40px'}}>CareerCraftAI</h1>
           <p style={styles.welcome}>Welcome, {username ? username : 'Guest'}!</p>
       </div>
     <div style={styles.container}>

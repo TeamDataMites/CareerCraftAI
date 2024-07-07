@@ -17,7 +17,7 @@ const Login = () => {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.header}>Job Interview Support</h1>
+      <h1 style={styles.header}>CareerCraftAI</h1>
       <form onSubmit={handleSubmit} style={styles.form}>
         <label style={styles.label}>Username:</label>
         <input
@@ -54,6 +54,7 @@ const styles = {
   header: {
     marginBottom: '20px',
     color: '#BB86FC', // Light purple
+    fontSize : '50px',
   },
   form: {
     display: 'flex',
