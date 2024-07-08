@@ -1,9 +1,31 @@
 import { useEffect, useState } from "react";
-
 import ActiveCallDetail from "../components/ActiveCallDetail";
 import Button from "../components/base/Button";
 import Vapi from "@vapi-ai/web";
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
+
+let app;
+let db;
+let firebaseConnection = false;
+const firebaseConfig = {
+  apiKey: "AIzaSyB8-43CAtyqFObRp-ByctCKgK9qxEOGxfs",
+  authDomain: "careercraftai-96e2b.firebaseapp.com",
+  projectId: "careercraftai-96e2b",
+  storageBucket: "careercraftai-96e2b.appspot.com",
+  messagingSenderId: "152484036478",
+  appId: "1:152484036478:web:828d8b546fa8e32ac5bd2f",
+  measurementId: "G-21G13F7CJ9"
+};
+
+try {
+  app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  firebaseConnection = true;
+} catch (e) {
+  console.error("firebase not initialized", e);
+}
 
 const vapi = new Vapi("ccd10ca7-f0e4-4ba7-bdc8-1df6330d2c56")
 
@@ -13,10 +35,41 @@ const Assistant = () => {
 
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
   const [volumeLevel, setVolumeLevel] = useState(0);
+  const [assistantVaribles, setAssistantVaribles] = useState(
+    {
+      name: "Aeser",
+      version: "0.1.0",
+      mode: "alpha",
+      subscription: "Free Tier",
+      dateJoined: "2024-06-30",
+      lastComplaint: "Error encountered while using CV finetuning service.",
+      lastComplaintStatus: "In progress",
+    }
+  );
+  const [loading, setLoading] = useState(true);
 
 
   // hook into Vapi events
   useEffect(() => {
+
+    const fetchData = async () => {
+      if (firebaseConnection) {
+        try {
+          const docref = doc(db, "users", "visithr9@gmail.com");
+          const docSnap = await getDoc(docref);
+          if (docSnap.exists()) {
+            setAssistantVaribles(docSnap.data());
+          } else {
+            console.error("No such document!");
+          }
+        } catch (e) {
+          console.error("Error getting document:", e);
+        }
+      }
+      setLoading(false);
+    };
+    fetchData();
+
     vapi.on("call-start", () => {
       console.log("call-start");
       setConnecting(false);
@@ -114,32 +167,124 @@ const Assistant = () => {
     vapi.say("Thank you for calling CareerCraftAI Helpdesk. Have a great day!", true);
   };
 
-  return (
+  let squadOptions = {
+    name: "CareerCraftAI Helpdesk Squad",
+    members: [
+      {
+        assistant: assistantOptionsAva,
+        assistantOverrides: {
+          variableValues: {
+            name: assistantVaribles.name,
+            version: assistantVaribles.version,
+            mode: assistantVaribles.mode,
+          }
+        },
+        assistantDestinations: [
+          {
+            type: "assistant",
+            assistantName: "Aya",
+            message: "I'll transfer you to Aya, our subscription expert. She'll be able to help you with that.",
+            description: "Transfer to Aya when user asks about subscription services or billing issues.",
+          },
+          {
+            type: "assistant",
+            assistantName: "Max",
+            message: "I'll transfer you to Max, our dedicated complaint handler. He'll take note of it.",
+            description: "Transfer to Max when user expresses dissatisfaction or complaints, wants make a suggestion, or requests a feature.",
+          }
+        ],
+      },
+      {
+        assistant: assistantOptionsAya,
+        assistantOverrides: {
+          variableValues: {
+            subscription: assistantVaribles.subscription,
+            dateJoined: assistantVaribles.dateJoined,
+          },
+        },
+        assistantDestinations: [
+          {
+            type: "assistant",
+            assistantName: "Ava",
+            message: "I'll transfer you back to Ava, our main assistant. She'll be able to help you with that.",
+            description: "Transfer to Ava when user asks general questions or needs assistance with the app.",
+          },
+          {
+            type: "assistant",
+            assistantName: "Max",
+            message: "I'll transfer you to Max, our dedicated complaint handler. He'll take note of it.",
+            description: "Transfer to Max when user expresses dissatisfaction or complaints, wants make a suggestion, or requests a feature.",
+          }
+        ],
+      },
+      {
+        assistant: assistantOptionsMax,
+        assistantOverrides: {
+          variableValues: {
+            name: assistantVaribles.name,
+            lastComplaint: assistantVaribles.lastComplaint,
+            lastComplaintStatus: assistantVaribles.lastComplaintStatus,
+          },
+        },
+        assistantDestinations: [
+          {
+            type: "assistant",
+            assistantName: "Ava",
+            message: "I'll transfer you back to Ava, our main assistant. She'll be able to help you with that.",
+            description: "Transfer to Ava when user asks general questions or needs assistance with the app.",
+          },
+          {
+            type: "assistant",
+            assistantName: "Aya",
+            message: "I'll transfer you to Aya, our subscription expert. She'll be able to help you with that.",
+            description: "Transfer to Aya when user asks about subscription services or billing issues.",
+          }
+        ],
+      }
+    ]
+  };
+
+  if (loading) {
+    return (
     <div
-      style={{
-        display: "flex",
-        width: "100vw",
-        height: "100vh",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#1E1E1E",
-      }}
-    >
-      {!connected ? (
-        <Button
-          label="CareerCraftAI Helpdesk"
-          onClick={startCallInline}
-          isLoading={connecting}
-        />
-      ) : (
-        <ActiveCallDetail
-          assistantIsSpeaking={assistantIsSpeaking}
-          volumeLevel={volumeLevel}
-          onEndCallClick={endCall}
-        />
-      )}
-    </div>
+    style={{
+      display: "flex",
+      width: "100vw",
+      height: "100vh",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#1E1E1E",
+    }}
+    >Loading...</div>
   );
+} else {
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "100vw",
+          height: "100vh",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#1E1E1E",
+        }}
+      >
+        {!connected ? (
+          <Button
+            label="CareerCraftAI Helpdesk"
+            onClick={startCallInline}
+            isLoading={connecting}
+          />
+        ) : (
+          <ActiveCallDetail
+            assistantIsSpeaking={assistantIsSpeaking}
+            volumeLevel={volumeLevel}
+            onEndCallClick={endCall}
+          />
+        )}
+      </div>
+    );
+  };
 };
 
 
@@ -157,7 +302,7 @@ const assistantOptionsAva = {
     },
     model: {
       provider: "openai",
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -176,6 +321,14 @@ CareerCraftAI is an application designed to support users in their career develo
 - Demonstrate how to handle complex or vague customer queries by asking open-ended questions for clarification, without appearing repetitive or artificial.
 - Teach trainees to express empathy and understanding, especially when customers are frustrated or dissatisfied, ensuring issues are addressed with care and a commitment to resolution.
 - Prepare agents to escalate calls smoothly to human colleagues when necessary, highlighting the value of personal touch in certain situations.
+
+**Provided infomation on the current client:**
+name: {{name}}
+
+**Provided infomation on the current app version:**
+version: {{version}}
+mode: {{mode}}
+date: {{date}}
 
 **Examples:**
 
@@ -235,7 +388,7 @@ const assistantOptionsAya = {
     },
     model: {
       provider: "openai",
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -258,6 +411,10 @@ const assistantOptionsAya = {
       - Assist users with upgrading, downgrading, or managing their subscriptions.
       - Address any issues or concerns related to billing or subscription limits.
       - Maintain a professional and friendly tone throughout the interaction.
+
+      **current clients infomation:**
+      subscription: {{subscription}}
+      date joined: {{dateJoined}}
 
       **Examples:**
 
@@ -343,11 +500,16 @@ const assistantOptionsMax = {
     - Provide solutions to common complaints where applicable.
     - Maintain a calm, empathetic, and professional tone throughout the interaction.
 
+    **Provided infomation on the current client:**
+    name: {{name}} 
+    last complaint: {{lastComplaint}}
+    last complaint status: {{lastComplaintStatus}}
+
     **Examples:**
 
     **Welcome Message:**
 
-    "Hello, I'm CareerCraftAI's complaint assistant Max. How can I help you today?"
+    "Hello, I'm CareerCraftAI's complaint assistant Max. How can I help you today?" 
 
     **Example Interactions:**
 
@@ -401,63 +563,5 @@ const assistantOptionsMax = {
       },
     ],
 };
-
-
-const squadOptions = {
-  name: "CareerCraftAI Helpdesk Squad",
-  members: [
-    {
-      assistant: assistantOptionsAva,
-      assistantDestinations: [
-        {
-          type: "assistant",
-          assistantName: "Aya",
-          message: "I'll transfer you to Aya, our subscription expert. She'll be able to help you with that.",
-          description: "Transfer to Aya when user asks about subscription services or billing issues.",
-        },
-        {
-          type: "assistant",
-          assistantName: "Max",
-          message: "I'll transfer you to Max, our dedicated complaint handler. He'll take note of it.",
-          description: "Transfer to Max when user expresses dissatisfaction or complaints, wants make a suggestion, or requests a feature.",
-        }
-      ],
-    },
-    {
-      assistant: assistantOptionsAya,
-      assistantDestinations: [
-        {
-          type: "assistant",
-          assistantName: "Ava",
-          message: "I'll transfer you back to Ava, our main assistant. She'll be able to help you with that.",
-          description: "Transfer to Ava when user asks general questions or needs assistance with the app.",
-        },
-        {
-          type: "assistant",
-          assistantName: "Max",
-          message: "I'll transfer you to Max, our dedicated complaint handler. He'll take note of it.",
-          description: "Transfer to Max when user expresses dissatisfaction or complaints, wants make a suggestion, or requests a feature.",
-        }
-      ],
-    },
-    {
-      assistant: assistantOptionsMax,
-      assistantDestinations: [
-        {
-          type: "assistant",
-          assistantName: "Ava",
-          message: "I'll transfer you back to Ava, our main assistant. She'll be able to help you with that.",
-          description: "Transfer to Ava when user asks general questions or needs assistance with the app.",
-        },
-        {
-          type: "assistant",
-          assistantName: "Aya",
-          message: "I'll transfer you to Aya, our subscription expert. She'll be able to help you with that.",
-          description: "Transfer to Aya when user asks about subscription services or billing issues.",
-        }
-      ],
-    }
-  ]
-}
 
 export default Assistant;
