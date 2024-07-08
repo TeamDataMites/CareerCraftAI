@@ -26,8 +26,8 @@ os.environ['LIVEKIT_API_KEY'] = os.getenv('LIVEKIT_API_KEY')
 os.environ['LIVEKIT_API_SECRET'] = os.getenv('LIVEKIT_API_SECRET')
 os.environ['CARTESIA_API_KEY'] = os.getenv("CARTESIA_API_KEY")
 
-goog_tts = tts.StreamAdapter(
-    tts=google.TTS(),
+openai_tts = tts.StreamAdapter(
+    tts=openai.TTS(model='tts-1-hd'),
     sentence_tokenizer=tokenize.basic.SentenceTokenizer()
 )
 
@@ -65,7 +65,8 @@ async def entrypoint(ctx: JobContext):
         vad=silero.VAD(),  # Voice Activity Detection
         stt=deepgram.STT(),  # Speech-to-Text
         llm=gpt,  # Language Model
-        tts=cartesia.TTS(model='sonic-english', voice='79f8b5fb-2cc8-479a-80df-29f7a7cf1a3e', sample_rate=44100),
+        # tts = openai_tts,  # Text-to-Speech (Optional) for long sessions use this
+        tts=cartesia.TTS(model='sonic-english', voice='79f8b5fb-2cc8-479a-80df-29f7a7cf1a3e', sample_rate=44100), # cartesia has a limit of 10 mins in free tier use openai for long sessions
         chat_ctx=chat_ctx,  # Chat history context
         fnc_ctx=AssistantFunctions(),
         transcription_speed=5.0

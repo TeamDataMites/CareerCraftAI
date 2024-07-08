@@ -113,6 +113,39 @@ docker build -t server .
 docker run -e OPENAI_API_KEY="sk-xx" -p 8082:8082 server
 ```
 
+### ELiO
+run following commands in terminal
+```bash
+npm install
+npm run dev
+```
+you have to install livekit-server. livekit handles the rpc calls needed for video conference.
+follow steps mentioned in: 
+    https://docs.livekit.io/home/self-hosting/server-setup/
+
+for local installation .env.local deose not need to be changed
+
+
+## multimodalAgent
+**websocket server for ELiO**
+setup following environment variables in following .env file
+```bash
+LIVEKIT_URL=ws://localhost:7880
+LIVEKIT_API_KEY=devkey
+LIVEKIT_API_SECRET=secret
+CARTESIA_API_KEY=
+DEEPGRAM_API_KEY=
+OPENAI_API_KEY=
+EXA_API_KEY=
+```
+In the code you can replace CARTESIA with openai tts (relavent code has been commented in main.py)
+
+after .env setup in the terminal
+```bash
+python main.py start
+```
+* LIVEKIT_* keys should remain unchanged for local servers
+
 ## Usage
 
 ```python
