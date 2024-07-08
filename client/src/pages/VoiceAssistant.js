@@ -46,24 +46,23 @@ const Assistant = () => {
       setConnecting(false);
     });
 
-    vapi.on("message", (message) => {
-      console.log(JSON.stringify(message, null, 2));
-      if (message.type !== 'model-output') return;
-      if (message.output[0].type === 'function' && message.output[0].function.name === 'storeComplaint'){
-        console.log("function call email sent")
-        const parsedArguments = JSON.parse(message.output[0].function.arguments);
-        fetch("http://127.0.0.1:8081/mail/send-email/",{
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            subject: parsedArguments.subject,
-            body: parsedArguments.body
-          })
-        })
-        .then(response => response.json())
-        .then(data => {
+
+    const handleFunctionCall = async (functionCall) => {
+      if (functionCall.name === 'storeComplaint'){
+        const {subject , body} = JSON.parse(functionCall.parameters);
+        try {
+          await fetch("http://127.0.0.1:8000/mail/send-email/",{
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              subject: subject,
+              body: body
+            })
+          }).then(response => {
+            console.log(response.json())
+          });
           vapi.send({
             type: "add-message",
             message: {
@@ -74,21 +73,30 @@ const Assistant = () => {
               })
             }
           });
-        })
-        .catch(_ => {
+        } catch (error) {
           vapi.send({
             type: "add-message",
             message: {
               role: "function",
-              content: JSON.stringify({
-                name: "storeComplaint",
-                result: "Failed to store complaint. Please try again later."
-              })
-            }
+              content: "Failed to store and send complaint.",
+            },
           });
-        });
+        }
       }
-    });
+    }
+
+    const messageHandler = (message) => {
+      console.log(message.type);
+      if (message.type === "function-call") {
+        handleFunctionCall(message.functionCall);
+      }
+    };
+
+    vapi.on("message", messageHandler);
+
+    return () => {
+      vapi.off("message", messageHandler);
+    };
 
   }, []);
 
@@ -393,7 +401,6 @@ const assistantOptionsMax = {
         },
       },
     ],
-  
 };
 
 
