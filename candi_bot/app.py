@@ -146,21 +146,20 @@ def submit_hr_answers():
     if not answer:
         return jsonify({'error': 'Answer cannot be empty.'}), 400
 
+    # Save the user's answer to the current question
     session['user_answers2'][questions[current_index]] = {'answer': answer}
     session['current_question_index'] += 1
 
-    print("lenthof-HR", len(session['questions2']))
-    print("session['current_question_index']-HR", session['current_question_index'])
+    print("length of HR questions:", len(session['questions2']))
+    print("current_question_index HR:", session['current_question_index'])
 
     # Check if all HR questions are answered
     if session['current_question_index'] >= len(session['questions2']):
-        cv_text = session['cv_text']
-        hr_answers = session['user_answers2']
-
-        # Redirect to show_results after all HR questions are answered
-        return redirect(url_for('show_results'))
+        # Redirect to the results page after all HR questions are answered
+        return jsonify({'completed': True, 'redirect_url': url_for('show_results')})
 
     return jsonify({'success': 'Answer submitted successfully.'})
+
 
 
 @app.route('/results')

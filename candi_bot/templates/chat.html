@@ -217,6 +217,16 @@
                         if (data.error) {
                             var botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' + data.error + '</div></div>';
                             $("#messageFormeight").append(botHtml);
+                        } else if (data.completed) {
+                            // Display "Please wait to see your result" message
+                            $("#messageFormeight").append('<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">***...Please wait to see your result...***</div></div>');
+                            // Disable input field and submit button
+                            $("#text").prop("disabled", true);
+                            $("#send").prop("disabled", true);
+                            // Handle redirection on client-side after a delay (for demo purposes)
+                            setTimeout(function() {
+                                window.location.href = data.redirect_url;
+                            }, 3000); // Redirect after 3 seconds
                         } else {
                             submissionCount++;
                             getQuestion();
@@ -225,6 +235,7 @@
                         $("#text").focus();
                     }
                 });
+
             });
         });
     </script>
