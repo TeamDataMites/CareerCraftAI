@@ -37,7 +37,7 @@ const Assistant = () => {
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [assistantVaribles, setAssistantVaribles] = useState(
     {
-      name: "Aeser",
+      name: "Guest",
       version: "0.1.0",
       mode: "alpha",
       subscription: "Free Tier",
