@@ -17,7 +17,7 @@ const Login = () => {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.header}>Job Interview Support</h1>
+      <h1 style={styles.header}>CareerCraftAI</h1>
       <form onSubmit={handleSubmit} style={styles.form}>
         <label style={styles.label}>Username:</label>
         <input
@@ -54,15 +54,17 @@ const styles = {
   header: {
     marginBottom: '20px',
     color: '#BB86FC', // Light purple
+    fontSize : '50px',
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: '#1E1E1E', // Darker blue
-    padding: '20px',
+    padding: '30px',
     borderRadius: '8px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    width: '500px',
   },
   label: {
     marginBottom: '10px',

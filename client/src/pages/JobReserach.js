@@ -11,7 +11,7 @@ const JobResearch = () => {
     const handleResearchJob = () => {
         setLoading(true);  
 
-        const url = new URL('http://localhost:8000/prediction/job_report');
+        const url = new URL('http://127.0.0.1:8081/prediction/job_report');
         url.searchParams.append('job_poster', jobPoster);
         url.searchParams.append('desc', desc);
     
