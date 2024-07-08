@@ -49,7 +49,6 @@ const Assistant = () => {
 
     const handleFunctionCall = async (functionCall) => {
       if (functionCall.name === 'storeComplaint'){
-        const {subject , body} = JSON.parse(functionCall.parameters);
         try {
           await fetch("http://127.0.0.1:8000/mail/send-email/",{
             method: 'POST',
@@ -57,8 +56,8 @@ const Assistant = () => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              subject: subject,
-              body: body
+              subject: functionCall.parameters.subject,
+              body: functionCall.parameters.body
             })
           }).then(response => {
             console.log(response.json())
