@@ -27,7 +27,7 @@ try {
   console.error("firebase not initialized", e);
 }
 
-const vapi = new Vapi("ccd10ca7-f0e4-4ba7-bdc8-1df6330d2c56")
+const vapi = new Vapi("b0837e5c-dce8-4825-9a24-2bbe07f3ed2c")
 
 const Assistant = () => {
   const [connecting, setConnecting] = useState(false);
@@ -101,46 +101,37 @@ const Assistant = () => {
 
 
     const handleFunctionCall = async (functionCall) => {
-      if (functionCall.name === 'storeComplaint'){
-        try {
-          await fetch("http://127.0.0.1:8000/mail/send-email/",{
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              subject: functionCall.parameters.subject,
-              body: functionCall.parameters.body
-            })
-          }).then(response => {
-            console.log(response.json())
-          });
+      try {
+        await fetch("http://127.0.0.1:8000/mail/send-email/",{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            subject: functionCall.arguments.subject,
+            body: functionCall.arguments.body
+          })
+        }).then(response => {
+          console.log(response.json())
           vapi.send({
             type: "add-message",
             message: {
-              role: "function",
-              content: JSON.stringify({
-                name: "storeComplaint",
-                result: "Complaint stored successfully."
-              })
-            }
-          });
-        } catch (error) {
-          vapi.send({
-            type: "add-message",
-            message: {
-              role: "function",
-              content: "Failed to store and send complaint.",
+              role: "system",
+              content: "The tool call has been completed successfully",
             },
           });
-        }
+        });
+      } catch (error) {
+        console.error(error);
       }
     }
 
+    // function-call was deprecated in vapi
     const messageHandler = (message) => {
-      console.log(message.type);
-      if (message.type === "function-call") {
-        handleFunctionCall(message.functionCall);
+      if (message.type !== "tool-calls") return;
+      if (message.type === "tool-calls" && message.toolCalls[0].function.name === "storeComplaint") {
+        console.log(JSON.stringify(message, null, 2));
+        handleFunctionCall(message.toolCalls[0].function);
       }
     };
 
@@ -291,6 +282,20 @@ const Assistant = () => {
 const assistantOptionsAva = {
     name: "Ava",
     firstMessage: "Hello, I'm CareerCraftAI's main helpdesk assistant. How can I help you today?",
+    clientMessages: [
+      "transcript",
+      "hang",
+      "tool-calls",
+      "speech-update",
+      "metadata",
+      "conversation-update",
+    ],
+    serverMessages: [
+      "end-of-call-report",
+      "status-update",
+      "hang",
+      "tool-calls"
+    ],
     transcriber: {
       provider: "deepgram",
       model: "nova-2",
@@ -302,7 +307,7 @@ const assistantOptionsAva = {
     },
     model: {
       provider: "openai",
-      model: "gpt-4o",
+      model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
@@ -362,16 +367,6 @@ date: {{date}}
         },
       ],
     },
-    // functions: [
-    //   {
-    //     "name": "openHome",
-    //     "description": "Opens the home page in a new tab.",
-    //     "parameters": {
-    //       "type": "object",
-    //       "properties": {}
-    //     }
-    //   }
-    // ]
   };
 
 const assistantOptionsAya = {
@@ -388,7 +383,7 @@ const assistantOptionsAya = {
     },
     model: {
       provider: "openai",
-      model: "gpt-4o",
+      model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
@@ -415,6 +410,7 @@ const assistantOptionsAya = {
       **current clients infomation:**
       subscription: {{subscription}}
       date joined: {{dateJoined}}
+      today date: {{date}}
 
       **Examples:**
 
@@ -454,7 +450,7 @@ const assistantOptionsMax = {
     clientMessages: [
       "transcript",
       "hang",
-      "function-call",
+      "tool-calls",
       "speech-update",
       "metadata",
       "conversation-update",
@@ -463,7 +459,7 @@ const assistantOptionsMax = {
       "end-of-call-report",
       "status-update",
       "hang",
-      "function-call",
+      "tool-calls",
     ],
     transcriber: {
       provider: "deepgram",
@@ -535,33 +531,55 @@ const assistantOptionsMax = {
 
     **Closing Statement:**
 
-    <IMPORTANT> currently the storeComplaint function is not implemented in the code. There fore do not run the function call </IMPORTANT>
-
     "Thank you for sharing your concerns. Your feedback is important to us, and we will work on resolving the issue as quickly as possible. If you have any further questions or additional details to provide, please let me know. Have a great day!"
           `,
         },
       ],
-    },
-    functions: [
-      {
-        name: "storeComplaint",
-        description: "Used to store a user complaint in the database, and send it to the relevant team for resolution.",
-        parameters: {
-          type: "object",
-          properties: {
-            "subject": {
-              "type": "string",
-              "description": "The subject of the complaint email."
+      tools: [
+        {
+          type: "function",
+          messages: [
+            {
+              "type": "request-start",
+              "content": "Storing the complaint. Please wait..."
             },
-            "body": {
-              "type": "string",
-              "description": "The content of the complaint to be sent in the email."
+            {
+                "type": "request-complete",
+                "content": "Complaint stored successfully."
+            },
+            {
+                "type": "request-failed",
+                "content": "Failed to store and send complaint."
+            },
+            {
+                "type": "request-response-delayed",
+                "content": "It appears there is some delay.",
+                "timingMilliseconds": 2000
             }
+          ],
+          function:
+          {
+            name: "storeComplaint",
+            description: "Used to store a user complaint in the database, and send it to the relevant team for resolution.",
+            parameters: {
+              type: "object",
+              properties: {
+                "subject": {
+                  "type": "string",
+                  "description": "The subject of the complaint email."
+                },
+                "body": {
+                  "type": "string",
+                  "description": "The content of the complaint to be sent in the email."
+                }
+              },
+              required: ["subject", "body"],
+            },
           },
-          required: ["subject", "body"],
-        },
-      },
-    ],
+          async: true,
+        }
+      ],
+    },
 };
 
 export default Assistant;

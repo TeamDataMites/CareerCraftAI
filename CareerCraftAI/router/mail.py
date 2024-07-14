@@ -14,8 +14,8 @@ router = APIRouter(
 
 
 class EmailSchema(BaseModel):
+    body: str
     subject: str
-    message: str
 
 
 conf = ConnectionConfig(
@@ -34,7 +34,7 @@ async def send_email_async(email: EmailSchema):
     message = MessageSchema(
         recipients=[os.getenv('MAIL_TO')],
         subject=email.subject,
-        body=email.message,
+        body=email.body,
         subtype="html"
     )
 
