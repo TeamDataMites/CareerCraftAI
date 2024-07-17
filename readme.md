@@ -146,15 +146,5 @@ python main.py start
 ```
 * LIVEKIT_* keys should remain unchanged for local servers
 
-## Usage
-
-```python
-import foobar
-
-
-```
-
-## Contributing
-
 
 ## License
